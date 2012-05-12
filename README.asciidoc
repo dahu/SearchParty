@@ -1,0 +1,24 @@
+SearchParty
+-----------
+
+_Extended search commands and maps for Vim_
+
+Visual Searches
+~~~~~~~~~~~~~~~
+
+* +*+  Searches for the next occurrence of the currently selected visual text.
+       +<Plug>SearchPartyVisualFindNext+
+
+* +#+  Searches for the prior occurrence of the currently selected visual text.
+       +<Plug>SearchPartyVisualFindPrior+
+
+* +&+  Starts a +:substitute+ using the currently selected visual text.
+       +<Plug>SearchPartyVisualFindSubstitute+
+
+LiterSearch~
+
+* +g/+ Prompts for a literal string to search for. This does NOT use a regular
+       expression, so the characters you type here will be searched for
+       literally without any magic interpretation. The +<Up>+ key scrolls
+       through prior literal search history.
+       +<Plug>SearchPartyFindLiteral+

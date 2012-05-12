@@ -1,0 +1,56 @@
+*SearchParty.txt*	For Vim version 7.3	Last change: 2012-05-12
+
+
+			VIM REFERENCE MANUAL	by Barry Arthur
+
+
+Help on using SearchParty                                        *SearchParty*
+
+1. Introduction					|SearchParty-intro|
+2. Configuration				|SearchParty-configuration|
+3. Usage					|SearchParty-usage|
+
+==============================================================================
+ 1. INTRODUCTION                                           *SearchParty-intro*
+
+SearchParty provides extended search tools to Vim, such as searching for the
+current visual selection (forwards and backwards), using the current visual
+selection in a |:substitute| and performing literal (non regex) searches.
+
+==============================================================================
+ 2. CONFIGURATION                                  *SearchParty-configuration*
+
+Currently, SearchParty requires that you have autoselect in your |'clipboard'|
+option.
+>
+  :set clipboard=autoselect,exclude:cons\|linux
+<
+
+==============================================================================
+ 3. USAGE                                                  *SearchParty-usage*
+
+Note; All of the default maps shown below can be overridden using the <Plug>
+maps given.
+
+Visual Searches~
+
+SearchParty provides three visual mode search tools:
+
+* *	Searches for the next occurrence of the currently selected visual text.
+	<Plug>SearchPartyVisualFindNext
+
+* #	Searches for the prior occurrence of the currently selected visual text.
+	<Plug>SearchPartyVisualFindPrior
+
+* &	Starts a |:substitute| using the currently selected visual text.
+	<Plug>SearchPartyVisualFindSubstitute
+
+Literal Search~
+
+* g/	Prompts for a literal string to search for. This does NOT use a regular
+	expression, so the characters you type here will be searched for
+	literally without any magic interpretation. The |<Up>| key scrolls
+	through prior literal search history.
+	<Plug>SearchPartyFindLiteral
+
+ vim:tw=78:ts=8:ft=help:norl:
