@@ -15,7 +15,8 @@ Visual Searches
 * +&+  Starts a +:substitute+ using the currently selected visual text.
        +<Plug>SearchPartyVisualFindSubstitute+
 
-LiterSearch~
+Literal Search
+~~~~~~~~~~~~~~
 
 * +g/+ Prompts for a literal string to search for. This does NOT use a regular
        expression, so the characters you type here will be searched for
