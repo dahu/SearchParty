@@ -88,6 +88,39 @@ if !hasmapto('<Plug>SearchPartyVisualSubstitute')
   vmap <unique> & <Plug>SearchPartyVisualSubstitute
 endif
 
+" Search Highlighting
+"---------------------
+
+" Temporarily clear highlighting
+nnoremap <Plug>SearchPartyHighlightClear :nohlsearch<cr><c-l>
+
+if !hasmapto('<Plug>SearchPartyHighlightClear')
+  nmap <unique> <silent> <c-l> <Plug>SearchPartyHighlightClear
+endif
+
+" Toggle search highlighting
+nnoremap <Plug>SearchPartyHighlightToggle :set invhlsearch hlsearch?<cr>
+
+if !hasmapto('<Plug>SearchPartyHighlightToggle')
+  nmap <unique> <silent> <c-Bslash> <Plug>SearchPartyHighlightToggle
+endif
+
+" Highlight all occurrences of word under cursor
+nnoremap <Plug>SearchPartyHighlightWord :let @/='\<'.expand('<cword>').'\>'<bar>set hlsearch<cr>viwo<esc>
+
+if !hasmapto('<Plug>SearchPartyHighlightWord')
+  nmap <unique> <silent> <leader>* <Plug>SearchPartyHighlightWord
+endif
+
+" Highlight all occurrences of WORD under cursor
+nnoremap <Plug>SearchPartyHighlightWORD :let @/=expand('<cWORD>')<bar>set hlsearch<cr>
+
+if !hasmapto('<Plug>SearchPartyHighlightWORD')
+  nmap <unique> <silent> <leader>g* <Plug>SearchPartyHighlightWORD
+endif
+
+
+
 " Teardown:{{{1
 "reset &cpo back to users setting
 let &cpo = s:save_cpo
