@@ -69,12 +69,12 @@ endif
 " Visual Search & Replace
 "-------------------------
 " Use * and # in visual mode to search for visual selection
-vnoremap <Plug>SearchPartyVisualFindNext   <Esc>/<c-r>=substitute(escape(@*, '\/.*$^~[]'), "\n", '\\n', "g")<cr><cr>
+vnoremap <Plug>SearchPartyVisualFindNext   "*y<Esc>/<c-r>=substitute(escape(@*, '\/.*$^~[]'), "\n", '\\n', "g")<cr><cr>
 
-vnoremap <Plug>SearchPartyVisualFindPrev   <Esc>?<c-r>=substitute(escape(@*, '\/.*$^~[]'), "\n", '\\n', "g")<cr><cr>
+vnoremap <Plug>SearchPartyVisualFindPrev   "*y<Esc>?<c-r>=substitute(escape(@*, '\/.*$^~[]'), "\n", '\\n', "g")<cr><cr>
 
 " Use & in visual mode to prime a substitute based on visual selection
-vnoremap <Plug>SearchPartyVisualSubstitute <Esc>:<c-u>%s/<c-r>=substitute(escape(@*, '\/.*$^~[]'), "\n", '\\n', "g")<cr>/
+vnoremap <Plug>SearchPartyVisualSubstitute "*y<Esc>:<c-u>%s/<c-r>=substitute(escape(@*, '\/.*$^~[]'), "\n", '\\n', "g")<cr>/
 
 if !hasmapto('<Plug>SearchPartyVisualFindNext')
   vmap <unique> <silent> * <Plug>SearchPartyVisualFindNext
