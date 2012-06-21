@@ -7,50 +7,62 @@
 Help on using SearchParty                                        *SearchParty*
 
 1. Introduction					|SearchParty-intro|
-2. Configuration				|SearchParty-configuration|
-3. Usage					|SearchParty-usage|
+2. Usage					|SearchParty-usage|
 
 ==============================================================================
  1. INTRODUCTION                                           *SearchParty-intro*
 
-SearchParty provides extended search tools to Vim, such as searching for the
+SearchParty provides extended search tools for Vim, such as searching for the
 current visual selection (forwards and backwards), using the current visual
-selection in a |:substitute| and performing literal (non regex) searches.
+selection in a |:substitute|, performing literal (non regex) searches and
+controlling current search highlight.
 
 ==============================================================================
- 2. CONFIGURATION                                  *SearchParty-configuration*
+ 2. USAGE                                                  *SearchParty-usage*
 
-Currently, SearchParty requires that you have autoselect in your |'clipboard'|
-option.
->
-  :set clipboard=autoselect,exclude:cons\|linux
-<
-
-==============================================================================
- 3. USAGE                                                  *SearchParty-usage*
-
-Note; All of the default maps shown below can be overridden using the <Plug>
+Note: All of the default maps shown below can be overridden using the <Plug>
 maps given.
 
 Visual Searches~
 
 SearchParty provides three visual mode search tools:
 
-* *	Searches for the next occurrence of the currently selected visual text.
+  *	Searches for the next occurrence of the currently selected visual text.
 	<Plug>SearchPartyVisualFindNext
 
-* #	Searches for the prior occurrence of the currently selected visual text.
+  #	Searches for the prior occurrence of the currently selected visual text.
 	<Plug>SearchPartyVisualFindPrior
 
-* &	Starts a |:substitute| using the currently selected visual text.
+  &	Starts a |:substitute| using the currently selected visual text.
 	<Plug>SearchPartyVisualFindSubstitute
 
 Literal Search~
 
-* g/	Prompts for a literal string to search for. This does NOT use a regular
+SearchParty provides a normal mode literal text (without regular expression
+magic) search:
+
+  g/	Prompts for a literal string to search for. This does NOT use a regular
 	expression, so the characters you type here will be searched for
 	literally without any magic interpretation. The |<Up>| key scrolls
 	through prior literal search history.
 	<Plug>SearchPartyFindLiteral
+
+Search Highlighting~
+
+SearchParty provides three normal mode search highlight tools:
+
+  <C-L>      Temporarily clears search highlight.
+             <Plug>SearchPartyHighlightClear
+
+
+  <C-BSlash> Toggles search highlighting.
+             <Plug>SearchPartyHighlightToggle
+
+  <leader>*  Highlights all occurrences of |word| under the cursor.
+             <Plug>SearchPartyHighlightWord
+
+
+  <leader>g* Highlights all occurrences of |WORD| under the cursor.
+             <Plug>SearchPartyHighlightWORD
 
  vim:tw=78:ts=8:ft=help:norl:
