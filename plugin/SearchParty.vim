@@ -48,7 +48,7 @@ function! s:FindLiteral()
   " next, add our own history.
   call map(copy(s:history), 'histadd("input", v:val)')
   " Get user's input.
-  let input = input('g/')
+  let input = input('literal search: ')
   if empty(input)
     " Nothing to do here.
     return
@@ -63,7 +63,7 @@ endfunction
 nnoremap <silent> <Plug>SearchPartyFindLiteral :<C-U>call <SID>FindLiteral()<CR>
 
 if !hasmapto('<Plug>SearchPartyFindLiteral')
-  nmap <unique> <silent> g/ <Plug>SearchPartyFindLiteral
+  nmap <unique> <silent> <leader>/ <Plug>SearchPartyFindLiteral
 endif
 
 " SearchParty arbitrary matches

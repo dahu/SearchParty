@@ -41,11 +41,11 @@ Literal Search~
 SearchParty provides a normal mode literal text (without regular expression
 magic) search:
 
-  g/	Prompts for a literal string to search for. This does NOT use a regular
-	expression, so the characters you type here will be searched for
-	literally without any magic interpretation. The |<Up>| key scrolls
-	through prior literal search history.
-	<Plug>SearchPartyFindLiteral
+  <leader>/  Prompts for a literal string to search for. This does NOT
+             use a regular expression, so the characters you type here will be
+             searched for literally without any magic interpretation.  The
+             |<Up>| key scrolls through prior literal search history.
+             <Plug>SearchPartyFindLiteral
 
 Search Highlighting~
 
@@ -78,7 +78,7 @@ Matches~
              <Plug>SearchPartySetMatch
 
              There are six match patterns available, called SPM1-SPM6
-             respectively. Using more than six matches will recylce through
+             respectively. Using more than six matches will recycle through
              the SPM set, losing the previous match assigned to that slot.
 
              By default, the terminal palette colours #1-#6 are used for
