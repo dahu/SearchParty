@@ -4,7 +4,7 @@
 " 		Israel Chauca F. <israelchauca@gmail.com>
 " Version:	0.1
 " Description:	Commands and maps for extended searches in Vim
-" Last Change:	2012-05-12
+" Last Change:	2012-06-28
 " License:	Vim License (see :help license)
 " Location:	plugin/SearchParty.vim
 " Website:	https://github.com/dahu/SearchParty
@@ -14,7 +14,7 @@
 " :helptags ~/.vim/doc
 " :help SearchParty
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let s:SearchParty_version = '0.1'
+let s:SearchParty_version = '0.2'
 
 " Vimscript Setup: {{{1
 " Allow use of line continuation.
@@ -65,6 +65,76 @@ nnoremap <silent> <Plug>SearchPartyFindLiteral :<C-U>call <SID>FindLiteral()<CR>
 if !hasmapto('<Plug>SearchPartyFindLiteral')
   nmap <unique> <silent> g/ <Plug>SearchPartyFindLiteral
 endif
+
+" SearchParty arbitrary matches
+try | silent hi SPM1 | catch /^Vim\%((\a\+)\)\=:E411/ | hi SPM1 ctermbg=1 guibg=red | endtry
+try | silent hi SPM2 | catch /^Vim\%((\a\+)\)\=:E411/ | hi SPM2 ctermbg=2 guibg=green | endtry
+try | silent hi SPM3 | catch /^Vim\%((\a\+)\)\=:E411/ | hi SPM3 ctermbg=3 guibg=yellow | endtry
+try | silent hi SPM4 | catch /^Vim\%((\a\+)\)\=:E411/ | hi SPM4 ctermbg=4 guibg=blue | endtry
+try | silent hi SPM5 | catch /^Vim\%((\a\+)\)\=:E411/ | hi SPM5 ctermbg=5 guibg=purple | endtry
+try | silent hi SPM6 | catch /^Vim\%((\a\+)\)\=:E411/ | hi SPM6 ctermbg=6 guibg=cyan | endtry
+
+let s:matches = repeat([0], 6)
+let s:match_num = 0
+function! s:Match()
+  if s:matches[s:match_num] != 0
+    echom "Warning: Overriding prior match number " . (s:match_num + 1)
+  endif
+  call inputsave()
+  exe "echohl SPM" . (s:match_num + 1)
+  let pattern = input("match: ", expand("<cword>"))
+  echohl None
+  "call inputrestore()
+  if pattern == ''
+    return
+  endif
+  if s:matches[s:match_num] != 0
+    call matchdelete(s:matches[s:match_num])
+  endif
+  " use priority -1 so normal searches show above SP matches
+  exe "let s:matches[s:match_num] = matchadd('SPM" . (s:match_num + 1) . "', pattern, -1)"
+  let s:match_num = (s:match_num + 1) % len(s:matches)
+endfunction
+
+nnoremap <Plug>SearchPartySetMatch :call <SID>Match()<cr>
+  "nmap <unique> <leader>mm :call <SID>Match()<cr>
+
+if !hasmapto('<Plug>SearchPartySetMatch')
+  nmap <unique> <leader>mm <Plug>SearchPartySetMatch<CR>
+endif
+
+function! SearchPartyMatchDelete(num)
+  let num = (a:num - 1)
+  if s:matches[num] != 0
+    call matchdelete(s:matches[num])
+    let s:matches[num] = 0
+  endif
+endfunction
+
+command! -nargs=1 SearchPartyMatchDelete call SearchPartyMatchDelete(<args>)
+
+function! SearchPartyMatchList()
+  let matches = map(filter(getmatches(), 'v:val["group"] =~ "SPM"'), '[v:val["group"], substitute(v:val["group"], "SPM", "Search Party Match #", "") . " = " . v:val["pattern"]]')
+  for match in matches
+    exe "echohl " . match[0]
+    echo match[1]
+    echohl None
+  endfor
+  echo "Next Search Party Match Number: " . (s:match_num + 1)
+endfunction
+
+command! -nargs=0 SearchPartyMatchList call SearchPartyMatchList()
+
+function! SearchPartyMatchNumber(num)
+  let num = a:num
+  if (num < 1) || (num > len(s:matches))
+    echom "Invalid Search Party Match Number: " . num
+  endif
+  let s:match_num = (a:num - 1)
+  echom "Search Party Match Number: " . num
+endfunction
+
+command! -nargs=1 SearchPartyMatchNumber call SearchPartyMatchNumber(<args>)
 
 " Visual Search & Replace
 "-------------------------
@@ -119,6 +189,12 @@ if !hasmapto('<Plug>SearchPartyHighlightWORD')
   nmap <unique> <silent> <leader>g* <Plug>SearchPartyHighlightWORD
 endif
 
+" Manually set Search Term from input
+nnoremap <Plug>SearchPartySetSearch :let @/=input("set search: ")<bar>set hlsearch<cr>
+
+if !hasmapto('<Plug>SearchPartySetSearch')
+  nmap <unique> <silent> <leader>ms <Plug>SearchPartySetSearch
+endif
 
 
 " Teardown:{{{1
