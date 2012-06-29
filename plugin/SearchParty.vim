@@ -2,9 +2,9 @@
 " Extended search tools for Vim
 " Maintainers:	Barry Arthur <barry.arthur@gmail.com>
 " 		Israel Chauca F. <israelchauca@gmail.com>
-" Version:	0.1
+" Version:	0.3
 " Description:	Commands and maps for extended searches in Vim
-" Last Change:	2012-06-28
+" Last Change:	2012-06-29
 " License:	Vim License (see :help license)
 " Location:	plugin/SearchParty.vim
 " Website:	https://github.com/dahu/SearchParty
@@ -14,7 +14,7 @@
 " :helptags ~/.vim/doc
 " :help SearchParty
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let s:SearchParty_version = '0.2'
+let s:SearchParty_version = '0.3'   " the M.A.S.H merger
 
 " Vimscript Setup: {{{1
 " Allow use of line continuation.
@@ -37,7 +37,7 @@ set cpo&vim
   "let g:somevar = 0
 "endif
 
-" Literal Search
+" Literal Search {{{1
 " --------------
 " Our private history.
 let s:history = exists('s:history') ? s:history : []
@@ -66,7 +66,18 @@ if !hasmapto('<Plug>SearchPartyFindLiteral')
   nmap <unique> <silent> <leader>/ <Plug>SearchPartyFindLiteral
 endif
 
-" SearchParty arbitrary matches
+" Manual Search Term from input {{{1
+" -----------------------------
+nnoremap <Plug>SearchPartySetSearch :let @/=input("set search: ")<bar>set hlsearch<cr>
+
+if !hasmapto('<Plug>SearchPartySetSearch')
+  nmap <unique> <silent> <leader>ms <Plug>SearchPartySetSearch
+endif
+
+" SearchParty arbitrary matches {{{1
+" -----------------------------
+
+" default match colours
 try | silent hi SPM1 | catch /^Vim\%((\a\+)\)\=:E411/ | hi SPM1 ctermbg=1 guibg=red | endtry
 try | silent hi SPM2 | catch /^Vim\%((\a\+)\)\=:E411/ | hi SPM2 ctermbg=2 guibg=green | endtry
 try | silent hi SPM3 | catch /^Vim\%((\a\+)\)\=:E411/ | hi SPM3 ctermbg=3 guibg=yellow | endtry
@@ -136,8 +147,9 @@ endfunction
 
 command! -nargs=1 SearchPartyMatchNumber call SearchPartyMatchNumber(<args>)
 
-" Visual Search & Replace
+" Visual Search & Replace {{{1
 "-------------------------
+
 " Use * and # in visual mode to search for visual selection
 vnoremap <Plug>SearchPartyVisualFindNext   "*y<Esc>/<c-r>=substitute(escape(@*, '\/.*$^~[]'), "\n", '\\n', "g")<cr><cr>
 
@@ -158,14 +170,14 @@ if !hasmapto('<Plug>SearchPartyVisualSubstitute')
   vmap <unique> & <Plug>SearchPartyVisualSubstitute
 endif
 
-" Search Highlighting
+" Search Highlighting {{{1
 "---------------------
 
 " Temporarily clear highlighting
-nnoremap <Plug>SearchPartyHighlightClear :nohlsearch<cr><c-l>
+nnoremap <Plug>SearchPartyHighlightClear :call <SID>UnMash()<CR>:noh<cr>
 
 if !hasmapto('<Plug>SearchPartyHighlightClear')
-  nmap <unique> <silent> <c-l> <Plug>SearchPartyHighlightClear
+  nmap <unique> <silent> <c-l> <c-l><bar><Plug>SearchPartyHighlightClear
 endif
 
 " Toggle search highlighting
@@ -189,13 +201,60 @@ if !hasmapto('<Plug>SearchPartyHighlightWORD')
   nmap <unique> <silent> <leader>g* <Plug>SearchPartyHighlightWORD
 endif
 
-" Manually set Search Term from input
-nnoremap <Plug>SearchPartySetSearch :let @/=input("set search: ")<bar>set hlsearch<cr>
+" M.A.S.H {{{1
+" -------
 
-if !hasmapto('<Plug>SearchPartySetSearch')
-  nmap <unique> <silent> <leader>ms <Plug>SearchPartySetSearch
+" Grey fog of war
+try | silent hi MashFOW | catch /^Vim\%((\a\+)\)\=:E411/ | hi MashFOW ctermfg=grey ctermbg=NONE guifg=grey guibg=NONE | endtry
+
+" Options
+" Mash FOW enabled?:{{{2
+let b:mash_use_fow = 0
+
+" Funcs:{{{2
+function! s:Mash()
+  try
+    call matchdelete(b:mash_search_item)
+    call matchdelete(b:mash_fow_item)
+  catch /^Vim\%((\a\+)\)\=:E/   " ignore E802/E803
+  endtry
+  if exists('b:mash_use_fow') && b:mash_use_fow
+    let b:mash_fow_item = matchadd('MashFOW', '.*', 1)
+    let b:mash_search_item = matchadd('IncSearch',  (&ignorecase ? '\c' : '') . @/, 2)
+  else
+    let b:mash_search_item = matchadd('IncSearch',  (&ignorecase ? '\c' : '') . '\%#'.@/, 2)
+  endif
+endfunction
+
+function! s:UnMash()
+  try
+    call matchdelete(b:mash_search_item)
+    call matchdelete(b:mash_fow_item)
+  catch /^Vim\%((\a\+)\)\=:E/
+  endtry
+endfunction
+
+" Maps:{{{2
+" Shadow Maps
+nnoremap <silent> n n:call <SID>Mash()<CR>
+nnoremap <silent> N N:call <SID>Mash()<CR>
+nnoremap <silent> # #:call <SID>Mash()<CR>
+nnoremap <silent> * *:call <SID>Mash()<CR>
+nnoremap <silent> g# g#:call <SID>Mash()<CR>
+nnoremap <silent> g* g*:call <SID>Mash()<CR>
+
+" Customisable Maps
+nnoremap <silent> <Plug>MashFOWEnable  :let b:mash_use_fow = 1<CR>:call <SID>Mash()<CR>
+
+if !hasmapto('<Plug>MashFOWEnable')
+  nmap <leader>mf <Plug>MashFOWEnable
 endif
 
+nnoremap <silent> <Plug>MashFOWDisable :let b:mash_use_fow = 0<CR>:call <SID>Mash()<CR>
+
+if !hasmapto('<Plug>MashFOWDisable')
+  nmap <leader>mF <Plug>MashFOWDisable
+endif
 
 " Teardown:{{{1
 "reset &cpo back to users setting

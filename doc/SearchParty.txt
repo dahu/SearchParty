@@ -49,18 +49,16 @@ magic) search:
 
 Search Highlighting~
 
-SearchParty provides three normal mode search highlight tools:
+SearchParty provides the following normal mode search highlight tools:
 
-  <C-L>      Temporarily clears search highlight.
+  <C-L>      Temporarily clears search highlight and disables M.A.S.H.
              <Plug>SearchPartyHighlightClear
-
 
   <C-BSlash> Toggles search highlighting.
              <Plug>SearchPartyHighlightToggle
 
   <leader>*  Highlights all occurrences of |word| under the cursor.
              <Plug>SearchPartyHighlightWord
-
 
   <leader>g* Highlights all occurrences of |WORD| under the cursor.
              <Plug>SearchPartyHighlightWORD
@@ -96,5 +94,66 @@ Matches~
              * SearchPartyMatchDelete(number) - clear match by number
              * SearchPartyMatchList - list all match patterns
              * SearchPartyMatchNumber(number) - reset match number (1-6)
+
+                                                            *SearchPartyMash*
+M.A.S.H.~
+
+Mash is a motion activated (lol - er, I mean, when you press n/N/#/*/g#/g*)
+current search match highlighter. Breaking that down for you, it highlights
+the match under the cursor differently to all the other matches (if you have
+:set hlsearch activated). If you don't use hlsearch, then it will still
+highlight the current match.
+
+                                                     *SearchPartyMash-unmash*
+
+Use CTRL-L to clear the current mash highlighting. This can be customised in
+|mash-key-maps|.
+
+                                                        *SearchPartyMash-fow*
+
+Mash also provides a Fog of War mode where all non-matched text is greyed out.
+Activate the FOW mode with <leader>mf and disable it with <leader>mF. This can
+be customised in  |mash-key-maps|.
+
+Configuration                                 *SearchPartyMash-configuration*
+
+Mash currently uses the built in Search and IncSearch highlight groups. Change
+these if you want to use different colours or attributes. For example, if you
+like the limelight:
+>
+  hi Search term=reverse ctermfg=White ctermbg=DarkGreen guifg=White guibg=DarkGreen
+  hi IncSearch term=bold cterm=bold ctermfg=Black ctermbg=DarkGreen gui=bold guifg=LightYellow guibg=DarkGreen
+<
+If you use a dark-grey background, a black FOW is near invisible:
+>
+  hi MashFOW ctermfg=black ctermbg=none guifg=black guibg=none
+<
+
+Mash Key Maps                                      *SearchPartyMash-key-maps*
+
+You can customise the actual key used to enable and disable Fog of War mode.
+For example, to map the |mash-fow| enable key (which is, by default, mapped to
+<leader>mf) to <leader>f, put the following in your ~/.vimrc :
+>
+  nmap <leader>f <Plug>MashFOWEnable
+<
+The following map targets are available for remapping in your ~/.vimrc :
+>
+  <Plug>MashFOWEnable              defaults to <leader>mf
+  <Plug>MashFOWDisable             defaults to <leader>mF
+  <Plug>SearchPartyHighlightClear  defaults to <c-l>
+<
+
+Ignorecase~
+
+Mash respects the current 'ignorecase' option setting.
+
+Issues                                          *SearchPartyMash-issues*
+
+Mash fails if the search uses an offset other than start-of-pattern,
+like:
+>
+     /foo/e
+<
 
  vim:tw=78:ts=8:ft=help:norl:
