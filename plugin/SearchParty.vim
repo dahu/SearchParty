@@ -55,7 +55,7 @@ function! s:FindLiteral()
   endif
   " Perform the search after we're done. Thanks to \V only the backslashes
   " need to be escaped.
-  call feedkeys("\<Esc>/\\V".escape(input, '\')."\<CR>", 'n')
+  call feedkeys("\<Esc>/\\V".escape(input, '\/')."\<CR>", 'n')
   "Add current string to our private history.
   call add(s:history, input)
 endfunction
