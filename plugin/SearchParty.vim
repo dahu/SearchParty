@@ -236,24 +236,24 @@ endfunction
 
 " Maps:{{{2
 " Shadow Maps
-nnoremap <silent> n n:call <SID>Mash()<CR>
-nnoremap <silent> N N:call <SID>Mash()<CR>
-nnoremap <silent> # #:call <SID>Mash()<CR>
-nnoremap <silent> * *:call <SID>Mash()<CR>
-nnoremap <silent> g# g#:call <SID>Mash()<CR>
-nnoremap <silent> g* g*:call <SID>Mash()<CR>
+for lhs in ['n', 'N', '#', '*', 'g#', 'g*']
+  exec 'nnoremap <silent> <Plug>MashShadow' . lhs . ' ' . lhs . ':call <SID>Mash()<CR>'
+  if !hasmapto('<Plug>MashShadow' . lhs)
+    exec 'nmap <unique> ' . lhs . ' <Plug>MashShadow'.lhs
+  endif
+endfor
 
 " Customisable Maps
 nnoremap <silent> <Plug>MashFOWEnable  :let b:mash_use_fow = 1<CR>:call <SID>Mash()<CR>
 
 if !hasmapto('<Plug>MashFOWEnable')
-  nmap <leader>mf <Plug>MashFOWEnable
+  nmap <unique> <leader>mf <Plug>MashFOWEnable
 endif
 
 nnoremap <silent> <Plug>MashFOWDisable :let b:mash_use_fow = 0<CR>:call <SID>Mash()<CR>
 
 if !hasmapto('<Plug>MashFOWDisable')
-  nmap <leader>mF <Plug>MashFOWDisable
+  nmap <unique> <leader>mF <Plug>MashFOWDisable
 endif
 
 " Teardown:{{{1
