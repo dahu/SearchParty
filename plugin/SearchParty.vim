@@ -108,7 +108,6 @@ function! s:Match()
 endfunction
 
 nnoremap <Plug>SearchPartySetMatch :call <SID>Match()<cr>
-  "nmap <unique> <leader>mm :call <SID>Match()<cr>
 
 if !hasmapto('<Plug>SearchPartySetMatch')
   nmap <unique> <leader>mm <Plug>SearchPartySetMatch<CR>
