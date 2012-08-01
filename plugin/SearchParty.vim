@@ -238,7 +238,7 @@ endfunction
 for lhs in ['n', 'N', '#', '*', 'g#', 'g*']
   exec 'nnoremap <silent> <Plug>MashShadow' . lhs . ' ' . lhs . ':call <SID>Mash()<CR>'
   if !hasmapto('<Plug>MashShadow' . lhs)
-    exec 'nmap <unique> ' . lhs . ' <Plug>MashShadow'.lhs
+    exec 'silent! nmap <unique> ' . lhs . ' <Plug>MashShadow'.lhs
   endif
 endfor
 
