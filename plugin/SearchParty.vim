@@ -171,11 +171,11 @@ function! s:UnMash()
 endfunction
 
 " Commands: {{{1
-command! -nargs=0 SearchPartyMatchList call SearchPartyMatchList()
+command! -bar -nargs=0 SearchPartyMatchList call SearchPartyMatchList()
 
-command! -nargs=1 SearchPartyMatchDelete call SearchPartyMatchDelete(<args>)
+command! -bar -nargs=? SearchPartyMatchDelete call SearchPartyMatchDelete(<args>)
 
-command! -nargs=1 SearchPartyMatchNumber call SearchPartyMatchNumber(<args>)
+command! -bar -nargs=1 SearchPartyMatchNumber call SearchPartyMatchNumber(<args>)
 
 " Mappings:{{{1
 " Search Highlighting {{{2
