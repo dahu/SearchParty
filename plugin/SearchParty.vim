@@ -97,26 +97,37 @@ function! s:Match()
     call matchdelete(s:matches[s:match_num])
   endif
   " use priority -1 so normal searches show above SP matches
-  exe "let s:matches[s:match_num] = matchadd('SPM" . (s:match_num + 1) . "', pattern, -1)"
+  let s:matches[s:match_num] = matchadd('SPM' . (s:match_num + 1), pattern, -1)
   let s:match_num = (s:match_num + 1) % len(s:matches)
 endfunction
 
-function! SearchPartyMatchDelete(num)
-  let num = (a:num - 1)
-  if s:matches[num] != 0
+function! SearchPartyMatchDelete(...)
+  if a:0
+    let num = (a:1 - 1)
+  else
+    call SearchPartyMatchList(0)
+    let num = input("Remove match: ")
+    if empty(num)
+      return
+    endif
+    let num -= 1
+  endif
+  if get(s:matches, num, 0) != 0
     call matchdelete(s:matches[num])
     let s:matches[num] = 0
   endif
 endfunction
 
-function! SearchPartyMatchList()
+function! SearchPartyMatchList(...)
   let matches = map(filter(getmatches(), 'v:val["group"] =~ "SPM"'), '[v:val["group"], substitute(v:val["group"], "SPM", "Search Party Match #", "") . " = " . v:val["pattern"]]')
   for match in matches
     exe "echohl " . match[0]
     echo match[1]
     echohl None
   endfor
-  echo "Next Search Party Match Number: " . (s:match_num + 1)
+  if !a:0 || a:1
+    echo "Next Search Party Match Number: " . (s:match_num + 1)
+  endif
 endfunction
 
 function! SearchPartyMatchNumber(num)
@@ -200,9 +211,15 @@ endif
 " SearchParty arbitrary matches {{{2
 " -----------------------------
 nnoremap <Plug>SearchPartySetMatch :call <SID>Match()<cr>
+nnoremap <Plug>SearchPartyDeleteMatch :call SearchPartyMatchDelete()<CR>
+
 
 if !hasmapto('<Plug>SearchPartySetMatch')
   nmap <unique> <leader>mm <Plug>SearchPartySetMatch<CR>
+endif
+
+if !hasmapto('<Plug>SearchPartyDeleteMatch')
+  nmap <unique> <leader>md <Plug>SearchPartyDeleteMatch
 endif
 
 " Manual Search Term from input {{{2
