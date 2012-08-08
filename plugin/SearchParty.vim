@@ -62,18 +62,19 @@ function! s:FindLiteral(...)
   call map(copy(s:search_literal_hist), 'histadd("input", v:val)')
   " Prepare a prompt.
   let prompt = 'Literal Search ' . (a:0 && a:1 ? '/' : '?')
-   "Thanks to \V only slashes and, backslashes or question marks need to be escaped.
-  let escaped = a:0 && a:1 ? escape(input, '\/') : escape(input, '\?')
   " Search forward or backward.
   let search_cmd = a:0 && a:1 ? '/' : '?'
   " Get user's input.
   let input = input(prompt)
+   "Thanks to \V only slashes and, backslashes or question marks need to be escaped.
+  let escaped = a:0 && a:1 ? escape(input, '\/') : escape(input, '\?')
   if empty(input)
     " Nothing to do here.
     return
   endif
   " Perform the search after we're done.
   call feedkeys("\<Esc>" . search_cmd . "\\V" . escaped . "\<CR>", 'n')
+  call feedkeys(":call SearchPartyMash()\<CR>\<C-L>", 'n')
   "Add current string to our private history.
   call add(s:search_literal_hist, input)
 endfunction
@@ -136,7 +137,7 @@ endfunction
 " Mash FOW enabled?:
 "let b:mash_use_fow = 0
 
-function! s:Mash()
+function! SearchPartyMash()
   try
     call matchdelete(b:mash_search_item)
     call matchdelete(b:mash_fow_item)
@@ -294,19 +295,19 @@ endif
 " ----
 " Shadow Maps
 for lhs in ['n', 'N', '#', '*', 'g#', 'g*']
-  exec 'nnoremap <silent> <Plug>SearchPartyMashShadow' . lhs . ' ' . lhs . ':call <SID>Mash()<CR>'
+  exec 'nnoremap <silent> <Plug>SearchPartyMashShadow' . lhs . ' ' . lhs . ':call SearchPartyMash()<CR>'
   if !hasmapto('<Plug>SearchPartyMashShadow' . lhs)
     exec 'silent! nmap <unique> ' . lhs . ' <Plug>SearchPartyMashShadow'.lhs
   endif
 endfor
 
-nnoremap <silent> <Plug>SearchPartyMashFOWEnable  :let b:mash_use_fow = 1<CR>:call <SID>Mash()<CR>
+nnoremap <silent> <Plug>SearchPartyMashFOWEnable  :let b:mash_use_fow = 1<CR>:call SearchPartyMash()<CR>
 
 if !hasmapto('<Plug>SearchPartyMashFOWEnable')
   nmap <unique> <leader>mf <Plug>SearchPartyMashFOWEnable
 endif
 
-nnoremap <silent> <Plug>SearchPartyMashFOWDisable :let b:mash_use_fow = 0<CR>:call <SID>Mash()<CR>
+nnoremap <silent> <Plug>SearchPartyMashFOWDisable :let b:mash_use_fow = 0<CR>:call SearchPartyMash()<CR>
 
 if !hasmapto('<Plug>SearchPartyMashFOWDisable')
   nmap <unique> <leader>mF <Plug>SearchPartyMashFOWDisable
