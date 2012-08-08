@@ -68,6 +68,8 @@ function! s:FindLiteral(...)
   let input = input(prompt)
    "Thanks to \V only slashes and, backslashes or question marks need to be escaped.
   let escaped = a:0 && a:1 ? escape(input, '\/') : escape(input, '\?')
+  " Allow control chars.
+  call join(map(split(escaped, '\zs'), 'v:val =~# [[:control:]] ? "\<C-V>".v:val : v:val'))
   if empty(input)
     " Nothing to do here.
     return
