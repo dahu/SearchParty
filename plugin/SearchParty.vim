@@ -186,7 +186,7 @@ command! -bar -nargs=1 SearchPartyMatchNumber call SearchPartyMatchNumber(<args>
 nnoremap <Plug>SearchPartyHighlightClear :call <SID>UnMash()<CR>:noh<cr>
 
 if !hasmapto('<Plug>SearchPartyHighlightClear')
-  nmap <unique> <silent> <c-l> <c-l><bar><Plug>SearchPartyHighlightClear
+  nmap <unique> <silent> <c-l> <c-l><Plug>SearchPartyHighlightClear
 endif
 
 " Toggle search highlighting
