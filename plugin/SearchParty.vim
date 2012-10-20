@@ -141,11 +141,6 @@ function! SearchPartyMatchNumber(num)
   echom "Search Party Match Number: " . num
 endfunction
 
-function! SearchPartyVisualMatch()
-  let spos = getpos("'<")
-  let epos = getpos("'>")
-  call matchadd('Error', '\%' . spos[1] . 'l\%' . spos[2] . 'c\_.*\%' . epos[1] . 'l\%' . epos[2] . 'c.')
-endfunction
 
 " M.A.S.H {{{2
 " -------
