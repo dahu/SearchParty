@@ -272,10 +272,16 @@ endif
 " (Original Code by Jürgen Krämer on vim-dev)
 
 function! PrintWithHighlighting() range
+  let lnum = a:firstline
+  let lnum_len = len(line('$'))
   for line in getline(a:firstline, a:lastline)
+    echohl LineNr
+    echon printf("%*s ", lnum_len, lnum)
+    echohl none
+    let lnum += 1
+
     let ms = match(line, @/)
     let me = matchend(line, @/)
-
     while ms != -1
       echohl none
       echon strpart(line, 0, ms)
