@@ -267,6 +267,31 @@ if !hasmapto('<Plug>SearchPartyFindLiteralBkwd')
   nmap <unique> <silent> <leader>? <Plug>SearchPartyFindLiteralBkwd
 endif
 
+" PrintWithHighlighting {{{2
+" ---------------------
+" (Original Code by Jürgen Krämer on vim-dev)
+
+function! PrintWithHighlighting() range
+  for line in getline(a:firstline, a:lastline)
+    let ms = match(line, @/)
+    let me = matchend(line, @/)
+
+    while ms != -1
+      echohl none
+      echon strpart(line, 0, ms)
+      echohl Search
+      echon strpart(line, ms, me - ms)
+      echohl none
+      let line = strpart(line, me)
+      let ms = match(line, @/)
+      let me = matchend(line, @/)
+    endwhile
+    echon line . "\n"
+  endfor
+endfunction
+
+command! -range P <line1>,<line2>call PrintWithHighlighting()
+
 " Mash {{{2
 " ----
 " Shadow Maps

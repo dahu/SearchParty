@@ -14,8 +14,9 @@ Help on using SearchParty                                        *SearchParty*
 
 SearchParty provides extended search tools for Vim, such as searching for the
 current visual selection (forwards and backwards), using the current visual
-selection in a |:substitute|, performing literal (non regex) searches and
-controlling current search highlight.
+selection in a |:substitute|, performing literal (non regex) searches,
+controlling current search highlight, highlighting arbitrary strings and
+highlighting terms in :g// output.
 
 ==============================================================================
  2. USAGE                                                  *SearchParty-usage*
@@ -62,6 +63,23 @@ SearchParty provides the following normal mode search highlight tools:
 
   <leader>g* Highlights all occurrences of |WORD| under the cursor.
              <Plug>SearchPartyHighlightWORD
+
+Highlighting Print Command~
+
+SearchParty provides a command, :P, which highlights the current search term
+in its output. This command is especially useful as a |:global| subcommand:
+>
+  :g/something/P
+<
+Will show the matching lines with all occurrences of `something` on those
+lines highlighted.
+
+The :P command can be used as a standalone command too:
+>
+  :10,20 P
+<
+Will show lines 10 through 20, highlighting all occurrences of the current
+search pattern.
 
 Pattern Searches~
 
