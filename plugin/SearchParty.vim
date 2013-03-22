@@ -282,7 +282,7 @@ function! PrintWithHighlighting() range
 
     let ms = match(line, @/)
     let me = matchend(line, @/)
-    while ms != -1
+    while ms != -1 && ms != me
       echohl none
       echon strpart(line, 0, ms)
       echohl Search
