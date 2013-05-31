@@ -308,21 +308,14 @@ for lhs in ['n', 'N', '#', '*', 'g#', 'g*']
   endif
 endfor
 
-nnoremap <silent> <Plug>SearchPartyMashFOWEnable  :let b:mash_use_fow = 1<CR>:call SearchPartyMash()<CR>
+let b:mash_use_fow = 0
+nnoremap <silent> <Plug>SearchPartyMashFOWToggle  :let b:mash_use_fow = b:mash_use_fow ? 0 : 1<CR>:call SearchPartyMash()<CR>
 
-if !hasmapto('<Plug>SearchPartyMashFOWEnable')
-  nmap <unique> <leader>mf <Plug>SearchPartyMashFOWEnable
+if !hasmapto('<Plug>SearchPartyMashFOWToggle')
+  nmap <unique> <leader>mf <Plug>SearchPartyMashFOWToggle
 endif
 
-nnoremap <silent> <Plug>SearchPartyMashFOWDisable :let b:mash_use_fow = 0<CR>:call SearchPartyMash()<CR>
-
-if !hasmapto('<Plug>SearchPartyMashFOWDisable')
-  nmap <unique> <leader>mF <Plug>SearchPartyMashFOWDisable
-endif
-
-" For backwards compatibility.
-nmap <silent> <Plug>MashFOWEnable  <Plug>SearchPartyMashFOWEnable
-nmap <silent> <Plug>MashFOWDisable <Plug>SearchPartyMashFOWDisable
+nmap <silent> <Plug>MashFOWToggle  <Plug>SearchPartyMashFOWToggle
 
 " Teardown:{{{1
 "reset &cpo back to users setting
