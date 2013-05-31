@@ -130,8 +130,8 @@ Use CTRL-L to clear the current mash highlighting. This can be customised in
                                                         *SearchPartyMash-fow*
 
 Mash also provides a Fog of War mode where all non-matched text is greyed out.
-Activate the FOW mode with <leader>mf and disable it with <leader>mF. This can
-be customised in  |mash-key-maps|.
+Activate and disable (toggle) the FOW mode with <leader>mf . This can be
+customised in  |mash-key-maps|.
 
 Configuration                                 *SearchPartyMash-configuration*
 
