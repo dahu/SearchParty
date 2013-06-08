@@ -1,4 +1,4 @@
-*SearchParty.txt*	For Vim version 7.3	Last change: 2012-05-12
+*SearchParty.txt*	Plugin that enhances search & highlight
 
 
 			VIM REFERENCE MANUAL	by Barry Arthur
