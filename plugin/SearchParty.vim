@@ -298,6 +298,11 @@ endfunction
 
 command! -range P <line1>,<line2>call PrintWithHighlighting()
 
+" Search Within A Range {{{2
+" ---------------------
+
+command! -range=% -nargs=* RSearch /\%(\%><line1>l\%<<line2>l\)\&\%(<args>\)/
+
 " Mash {{{2
 " ----
 " Shadow Maps
