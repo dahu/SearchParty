@@ -236,23 +236,23 @@ endif
 " Visual Search & Replace {{{2
 " -----------------------
 " Use * and # in visual mode to search for visual selection
-vnoremap <Plug>SearchPartyVisualFindNext   "*y<Esc>/<c-r>=substitute(escape(@*, '\/.*$^~[]'), "\n", '\\n', "g")<cr><cr>
+xnoremap <Plug>SearchPartyVisualFindNext   "*y<Esc>/<c-r>=substitute(escape(@*, '\/.*$^~[]'), "\n", '\\n', "g")<cr><cr>
 
-vnoremap <Plug>SearchPartyVisualFindPrev   "*y<Esc>?<c-r>=substitute(escape(@*, '\/.*$^~[]'), "\n", '\\n', "g")<cr><cr>
+xnoremap <Plug>SearchPartyVisualFindPrev   "*y<Esc>?<c-r>=substitute(escape(@*, '\/.*$^~[]'), "\n", '\\n', "g")<cr><cr>
 
 " Use & in visual mode to prime a substitute based on visual selection
-vnoremap <Plug>SearchPartyVisualSubstitute "*y<Esc>:<c-u>%s/<c-r>=substitute(escape(@*, '\/.*$^~[]'), "\n", '\\n', "g")<cr>/
+xnoremap <Plug>SearchPartyVisualSubstitute "*y<Esc>:<c-u>%s/<c-r>=substitute(escape(@*, '\/.*$^~[]'), "\n", '\\n', "g")<cr>/
 
 if !hasmapto('<Plug>SearchPartyVisualFindNext')
-  vmap <unique> <silent> * <Plug>SearchPartyVisualFindNext
+  xmap <unique> <silent> * <Plug>SearchPartyVisualFindNext
 endif
 
 if !hasmapto('<Plug>SearchPartyVisualFindPrev')
-  vmap <unique> <silent> # <Plug>SearchPartyVisualFindPrev
+  xmap <unique> <silent> # <Plug>SearchPartyVisualFindPrev
 endif
 
 if !hasmapto('<Plug>SearchPartyVisualSubstitute')
-  vmap <unique> & <Plug>SearchPartyVisualSubstitute
+  xmap <unique> & <Plug>SearchPartyVisualSubstitute
 endif
 
 " Search Literal {{{2
