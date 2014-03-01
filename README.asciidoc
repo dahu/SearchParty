@@ -25,6 +25,15 @@ Literal Search
               literal search history.
               +<Plug>SearchPartyFindLiteral+
 
+Multiple Replacements
+~~~~~~~~~~~~~~~~~~~~~
+
+* +<leader>mp Prompts for a Search Term and then prompts for
+              Replacement Terms (space separated). The current line is
+              then duplicated as many times as there are replacements,
+              minus one, and the Search Term is then replaced on each
+              line with each successive Replacement.
+
 Search Highlighting
 ~~~~~~~~~~~~~~~~~~~
 

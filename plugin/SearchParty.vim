@@ -233,6 +233,16 @@ if !hasmapto('<Plug>SearchPartySetSearch')
   nmap <unique> <silent> <leader>ms <Plug>SearchPartySetSearch
 endif
 
+" Multiple rePlace {{{2
+" ----------------
+" Use <leader>mp in normal mode to replace a term with multiple different values
+nnoremap <Plug>SearchPartyMultipleReplace :let _vsp_mr_search_term=input('Search:') \| let _vsp_mr_replacements = split(input('Replace:')) \| exe 'norm yy'.(len(_vsp_mr_replacements)-1).'pk' \| for w in _vsp_mr_replacements \| exe 's/'._vsp_mr_search_term.'/'.w \| exe 'norm +' \| endfor<cr>
+
+if !hasmapto('<Plug>SearchPartyMultipleReplace')
+  nmap <unique> <silent> <leader>mp <Plug>SearchPartyMultipleReplace
+endif
+
+
 " Visual Search & Replace {{{2
 " -----------------------
 " Use * and # in visual mode to search for visual selection
