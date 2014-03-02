@@ -18,56 +18,56 @@ Visual Searches
 Literal Search
 ~~~~~~~~~~~~~~
 
-* +<leader>/+ Prompts for a literal string to search for. This does
-              NOT use a regular expression, so the characters you type
-              here will be searched for literally without any magic
-              interpretation. The +<Up>+ key scrolls through prior
-              literal search history.
-              +<Plug>SearchPartyFindLiteral+
+* +<leader>/+   Prompts for a literal string to search for. This does
+                NOT use a regular expression, so the characters you type
+                here will be searched for literally without any magic
+                interpretation. The +<Up>+ key scrolls through prior
+                literal search history.
+                +<Plug>SearchPartyFindLiteral+
 
 Multiple Replacements
 ~~~~~~~~~~~~~~~~~~~~~
 
-* +<leader>mp Prompts for a Search Term and then prompts for
-              Replacement Terms (space separated). The current line is
-              then duplicated as many times as there are replacements,
-              minus one, and the Search Term is then replaced on each
-              line with each successive Replacement.
+* +<leader>mp+  Prompts for a Search Term and then prompts for
+                Replacement Terms (space separated). The current line is
+                then duplicated as many times as there are replacements,
+                minus one, and the Search Term is then replaced on each
+                line with each successive Replacement.
 
 Search Highlighting
 ~~~~~~~~~~~~~~~~~~~
 
-* +<C-L>+      Temporarily clears search highlight.
-               +<Plug>SearchPartyHighlightClear+
+* +<C-L>+       Temporarily clears search highlight.
+                +<Plug>SearchPartyHighlightClear+
 
-* +<C-BSlash>+ Toggles search highlighting.
-               +<Plug>SearchPartyHighlightToggle+
+* +<C-BSlash>+  Toggles search highlighting.
+                +<Plug>SearchPartyHighlightToggle+
 
-* +<leader>*+  Highlights all occurrences of +word+ under the cursor.
-               +<Plug>SearchPartyHighlightWord+
+* +<leader>*+   Highlights all occurrences of +word+ under the cursor.
+                +<Plug>SearchPartyHighlightWord+
 
-* +<leader>mah Toggle automatic highlight of all occurrences of +word+
-               under cursor.
-               NOTE: Update delay determined by +'updatetime'+
-               +<Plug>SearchPartyToggleAutoHighlightWord+
+* +<leader>mah+ Toggle automatic highlight of all occurrences of +word+
+                under cursor.
+                NOTE: Update delay determined by +'updatetime'+
+                +<Plug>SearchPartyToggleAutoHighlightWord+
 
-* +<leader>g*+ Highlights all occurrences of +WORD+ under the cursor.
-               +<Plug>SearchPartyHighlightWORD+
+* +<leader>g*+  Highlights all occurrences of +WORD+ under the cursor.
+                +<Plug>SearchPartyHighlightWORD+
 
 Pattern Searches
 ~~~~~~~~~~~~~~~~
 
-* +<leader>ms+ Prompts for a pattern and sets the current search to
-               that pattern without moving the cursor to the next
-               match of that pattern.
-               +<Plug>SearchPartySetSearch+
+* +<leader>ms+  Prompts for a pattern and sets the current search to
+                that pattern without moving the cursor to the next
+                match of that pattern.
+                +<Plug>SearchPartySetSearch+
 
 Matches
 ~~~~~~~
 
-* +<leader>mm+ Prompts for a pattern and uses +matchadd()+ to highlight all
-               occurrences of that pattern in the current window.
-               +<Plug>SearchPartySetMatch+
+* +<leader>mm+  Prompts for a pattern and uses +matchadd()+ to highlight all
+                occurrences of that pattern in the current window.
+                +<Plug>SearchPartySetMatch+
 +
 There are six match patterns available, called +SPM1+-+SPM6+ respectively.
 Using more than six matches will recycle through the SPM set, losing
