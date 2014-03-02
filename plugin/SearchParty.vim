@@ -173,6 +173,22 @@ function! s:UnMash()
   endtry
 endfunction
 
+" Toggle Auto Highlight Cursor Word {{{2
+" ---------------------------------
+
+function! s:ToggleAHCW()
+  if exists('#SearchPartyTAHW')
+    augroup SearchPartyTAHW
+      au!
+    augroup END
+    augroup! SearchPartyTAHW
+  else
+    augroup SearchPartyTAHW
+      au! CursorHold * call feedkeys("\<Plug>SearchPartyHighlightWord")
+    augroup END
+  endif
+endfunction
+
 " Commands: {{{1
 command! -bar -nargs=0 SearchPartyMatchList call SearchPartyMatchList()
 
@@ -202,6 +218,13 @@ nnoremap <Plug>SearchPartyHighlightWord :let @/='\<'.expand('<cword>').'\>'<bar>
 
 if !hasmapto('<Plug>SearchPartyHighlightWord')
   nmap <unique> <silent> <leader>* <Plug>SearchPartyHighlightWord
+endif
+
+" Toggle Automatic Highlight of all occurrences of word under cursor
+nnoremap <Plug>SearchPartyToggleAutoHighlightWord :call <SID>ToggleAHCW()<CR>
+
+if !hasmapto('<Plug>SearchPartyToggleAutoHighlightWord')
+  nmap <unique> <silent> <leader>mah <Plug>SearchPartyToggleAutoHighlightWord
 endif
 
 " Highlight all occurrences of WORD under cursor
@@ -238,102 +261,102 @@ endif
 " Use <leader>mp in normal mode to replace a term with multiple different values
 nnoremap <Plug>SearchPartyMultipleReplace :let _vsp_mr_search_term=input('Search:') \| let _vsp_mr_replacements = split(input('Replace:')) \| exe 'norm yy'.(len(_vsp_mr_replacements)-1).'pk' \| for w in _vsp_mr_replacements \| exe 's/'._vsp_mr_search_term.'/'.w \| exe 'norm +' \| endfor<cr>
 
-if !hasmapto('<Plug>SearchPartyMultipleReplace')
-  nmap <unique> <silent> <leader>mp <Plug>SearchPartyMultipleReplace
-endif
+  if !hasmapto('<Plug>SearchPartyMultipleReplace')
+    nmap <unique> <silent> <leader>mp <Plug>SearchPartyMultipleReplace
+  endif
 
 
-" Visual Search & Replace {{{2
-" -----------------------
-" Use * and # in visual mode to search for visual selection
-xnoremap <Plug>SearchPartyVisualFindNext   "*y<Esc>/<c-r>=substitute(escape(@*, '\/.*$^~[]'), "\n", '\\n', "g")<cr><cr>
+  " Visual Search & Replace {{{2
+  " -----------------------
+  " Use * and # in visual mode to search for visual selection
+  xnoremap <Plug>SearchPartyVisualFindNext   "*y<Esc>/<c-r>=substitute(escape(@*, '\/.*$^~[]'), "\n", '\\n', "g")<cr><cr>
 
-xnoremap <Plug>SearchPartyVisualFindPrev   "*y<Esc>?<c-r>=substitute(escape(@*, '\/.*$^~[]'), "\n", '\\n', "g")<cr><cr>
+  xnoremap <Plug>SearchPartyVisualFindPrev   "*y<Esc>?<c-r>=substitute(escape(@*, '\/.*$^~[]'), "\n", '\\n', "g")<cr><cr>
 
-" Use & in visual mode to prime a substitute based on visual selection
-xnoremap <Plug>SearchPartyVisualSubstitute "*y<Esc>:<c-u>%s/<c-r>=substitute(escape(@*, '\/.*$^~[]'), "\n", '\\n', "g")<cr>/
+  " Use & in visual mode to prime a substitute based on visual selection
+  xnoremap <Plug>SearchPartyVisualSubstitute "*y<Esc>:<c-u>%s/<c-r>=substitute(escape(@*, '\/.*$^~[]'), "\n", '\\n', "g")<cr>/
 
-if !hasmapto('<Plug>SearchPartyVisualFindNext')
-  xmap <unique> <silent> * <Plug>SearchPartyVisualFindNext
-endif
+  if !hasmapto('<Plug>SearchPartyVisualFindNext')
+    xmap <unique> <silent> * <Plug>SearchPartyVisualFindNext
+  endif
 
-if !hasmapto('<Plug>SearchPartyVisualFindPrev')
-  xmap <unique> <silent> # <Plug>SearchPartyVisualFindPrev
-endif
+  if !hasmapto('<Plug>SearchPartyVisualFindPrev')
+    xmap <unique> <silent> # <Plug>SearchPartyVisualFindPrev
+  endif
 
-if !hasmapto('<Plug>SearchPartyVisualSubstitute')
-  xmap <unique> & <Plug>SearchPartyVisualSubstitute
-endif
+  if !hasmapto('<Plug>SearchPartyVisualSubstitute')
+    xmap <unique> & <Plug>SearchPartyVisualSubstitute
+  endif
 
-" Search Literal {{{2
-" --------------
-nnoremap <silent> <Plug>SearchPartyFindLiteralFwd :<C-U>call <SID>FindLiteral(1)<CR>
-nnoremap <silent> <Plug>SearchPartyFindLiteralBkwd :<C-U>call <SID>FindLiteral(0)<CR>
+  " Search Literal {{{2
+  " --------------
+  nnoremap <silent> <Plug>SearchPartyFindLiteralFwd :<C-U>call <SID>FindLiteral(1)<CR>
+  nnoremap <silent> <Plug>SearchPartyFindLiteralBkwd :<C-U>call <SID>FindLiteral(0)<CR>
 
-if !hasmapto('<Plug>SearchPartyFindLiteralFwd')
-  nmap <unique> <silent> <leader>/ <Plug>SearchPartyFindLiteralFwd
-endif
-if !hasmapto('<Plug>SearchPartyFindLiteralBkwd')
-  nmap <unique> <silent> <leader>? <Plug>SearchPartyFindLiteralBkwd
-endif
+  if !hasmapto('<Plug>SearchPartyFindLiteralFwd')
+    nmap <unique> <silent> <leader>/ <Plug>SearchPartyFindLiteralFwd
+  endif
+  if !hasmapto('<Plug>SearchPartyFindLiteralBkwd')
+    nmap <unique> <silent> <leader>? <Plug>SearchPartyFindLiteralBkwd
+  endif
 
-" PrintWithHighlighting {{{2
-" ---------------------
-" (Original Code by Jürgen Krämer on vim-dev)
+  " PrintWithHighlighting {{{2
+  " ---------------------
+  " (Original Code by Jürgen Krämer on vim-dev)
 
-function! PrintWithHighlighting() range
-  let lnum = a:firstline
-  let lnum_len = len(line('$'))
-  for line in getline(a:firstline, a:lastline)
-    echohl LineNr
-    echon printf("%*s ", lnum_len, lnum)
-    echohl none
-    let lnum += 1
-
-    let ms = match(line, @/)
-    let me = matchend(line, @/)
-    while ms != -1 && ms != me
+  function! PrintWithHighlighting() range
+    let lnum = a:firstline
+    let lnum_len = len(line('$'))
+    for line in getline(a:firstline, a:lastline)
+      echohl LineNr
+      echon printf("%*s ", lnum_len, lnum)
       echohl none
-      echon strpart(line, 0, ms)
-      echohl Search
-      echon strpart(line, ms, me - ms)
-      echohl none
-      let line = strpart(line, me)
+      let lnum += 1
+
       let ms = match(line, @/)
       let me = matchend(line, @/)
-    endwhile
-    echon line . "\n"
+      while ms != -1 && ms != me
+        echohl none
+        echon strpart(line, 0, ms)
+        echohl Search
+        echon strpart(line, ms, me - ms)
+        echohl none
+        let line = strpart(line, me)
+        let ms = match(line, @/)
+        let me = matchend(line, @/)
+      endwhile
+      echon line . "\n"
+    endfor
+  endfunction
+
+  command! -range P <line1>,<line2>call PrintWithHighlighting()
+
+  " Search Within A Range {{{2
+  " ---------------------
+
+  command! -range=% -nargs=* RSearch /\%(\%><line1>l\%<<line2>l\)\&\%(<args>\)/
+
+  " Mash {{{2
+  " ----
+  " Shadow Maps
+  for lhs in ['n', 'N', '#', '*', 'g#', 'g*']
+    exec 'nnoremap <silent> <Plug>SearchPartyMashShadow' . lhs . ' ' . lhs . ':call SearchPartyMash()<CR>'
+    if !hasmapto('<Plug>SearchPartyMashShadow' . lhs)
+      exec 'silent! nmap <unique> ' . lhs . ' <Plug>SearchPartyMashShadow'.lhs
+    endif
   endfor
-endfunction
 
-command! -range P <line1>,<line2>call PrintWithHighlighting()
+  let b:mash_use_fow = 0
+  nnoremap <silent> <Plug>SearchPartyMashFOWToggle  :let b:mash_use_fow = b:mash_use_fow ? 0 : 1<CR>:call SearchPartyMash()<CR>
 
-" Search Within A Range {{{2
-" ---------------------
-
-command! -range=% -nargs=* RSearch /\%(\%><line1>l\%<<line2>l\)\&\%(<args>\)/
-
-" Mash {{{2
-" ----
-" Shadow Maps
-for lhs in ['n', 'N', '#', '*', 'g#', 'g*']
-  exec 'nnoremap <silent> <Plug>SearchPartyMashShadow' . lhs . ' ' . lhs . ':call SearchPartyMash()<CR>'
-  if !hasmapto('<Plug>SearchPartyMashShadow' . lhs)
-    exec 'silent! nmap <unique> ' . lhs . ' <Plug>SearchPartyMashShadow'.lhs
+  if !hasmapto('<Plug>SearchPartyMashFOWToggle')
+    nmap <unique> <leader>mf <Plug>SearchPartyMashFOWToggle
   endif
-endfor
 
-let b:mash_use_fow = 0
-nnoremap <silent> <Plug>SearchPartyMashFOWToggle  :let b:mash_use_fow = b:mash_use_fow ? 0 : 1<CR>:call SearchPartyMash()<CR>
+  nmap <silent> <Plug>MashFOWToggle  <Plug>SearchPartyMashFOWToggle
 
-if !hasmapto('<Plug>SearchPartyMashFOWToggle')
-  nmap <unique> <leader>mf <Plug>SearchPartyMashFOWToggle
-endif
+  " Teardown:{{{1
+  "reset &cpo back to users setting
+  let &cpo = s:save_cpo
 
-nmap <silent> <Plug>MashFOWToggle  <Plug>SearchPartyMashFOWToggle
-
-" Teardown:{{{1
-"reset &cpo back to users setting
-let &cpo = s:save_cpo
-
-" vim: set sw=2 sts=2 et fdm=marker:
+  " vim: set sw=2 sts=2 et fdm=marker:

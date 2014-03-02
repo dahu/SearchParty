@@ -60,17 +60,22 @@ Search Highlighting~
 
 SearchParty provides the following normal mode search highlight tools:
 
-  <C-L>      Temporarily clears search highlight and disables M.A.S.H.
-             <Plug>SearchPartyHighlightClear
+  <C-L>       Temporarily clears search highlight and disables M.A.S.H.
+              <Plug>SearchPartyHighlightClear
 
-  <C-BSlash> Toggles search highlighting.
-             <Plug>SearchPartyHighlightToggle
+  <C-BSlash>  Toggles search highlighting.
+              <Plug>SearchPartyHighlightToggle
 
-  <leader>*  Highlights all occurrences of |word| under the cursor.
-             <Plug>SearchPartyHighlightWord
+  <leader>*   Highlights all occurrences of |word| under the cursor.
+              <Plug>SearchPartyHighlightWord
 
-  <leader>g* Highlights all occurrences of |WORD| under the cursor.
-             <Plug>SearchPartyHighlightWORD
+  <leader>mah Toggle automatic highlight of all occurrences of
+              |word| under cursor.
+              NOTE: Update delay determined by |'updatetime'|
+              <Plug>SearchPartyToggleAutoHighlightWord
+
+  <leader>g*  Highlights all occurrences of |WORD| under the cursor.
+              <Plug>SearchPartyHighlightWORD
 
 Highlighting Print Command~
 

@@ -46,6 +46,11 @@ Search Highlighting
 * +<leader>*+  Highlights all occurrences of +word+ under the cursor.
                +<Plug>SearchPartyHighlightWord+
 
+* +<leader>mah Toggle automatic highlight of all occurrences of +word+
+               under cursor.
+               NOTE: Update delay determined by +'updatetime'+
+               +<Plug>SearchPartyToggleAutoHighlightWord+
+
 * +<leader>g*+ Highlights all occurrences of +WORD+ under the cursor.
                +<Plug>SearchPartyHighlightWORD+
 
