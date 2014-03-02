@@ -107,7 +107,7 @@ The following functions and commands are available for Search Party matches:
 M.A.S.H.
 ~~~~~~~~
 
-Mash is a motion activated (lol - er, I mean, when you press n/N/#/*/g#/g*)
+Mash is a motion activated (lol - er, I mean, when you press ++n/N/\#/\*/g#/g*++)
 current search match highlighter. Breaking that down for you, it highlights
 the match under the cursor differently to all the other matches (if you have
 :set hlsearch activated). If you don't use hlsearch, then it will still
