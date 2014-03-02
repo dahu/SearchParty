@@ -173,6 +173,23 @@ function! s:UnMash()
   endtry
 endfunction
 
+" Multiple Replacements {{{2
+" ---------------------
+
+function! s:MultiplyReplace()
+  let pos = getpos('.')
+  let search = input('Search:')
+  let replacements = split(input('Replace:'), '\\\@<! ')
+  if len(replacements) > 1
+    exe 'norm! Y' . len(replacements) . 'p'
+  endif
+  for w in replacements
+    exe 's/' . search . '/' . w
+    exe 'norm! +'
+  endfor
+  call setpos('.', pos)
+endfunction
+
 " Toggle Auto Highlight Cursor Word {{{2
 " ---------------------------------
 
@@ -259,7 +276,7 @@ endif
 " Multiple rePlace {{{2
 " ----------------
 " Use <leader>mp in normal mode to replace a term with multiple different values
-nnoremap <Plug>SearchPartyMultipleReplace :let _vsp_mr_search_term=input('Search:') \| let _vsp_mr_replacements = split(input('Replace:')) \| exe 'norm yy'.(len(_vsp_mr_replacements)-1).'pk' \| for w in _vsp_mr_replacements \| exe 's/'._vsp_mr_search_term.'/'.w \| exe 'norm +' \| endfor<cr>
+nnoremap <Plug>SearchPartyMultipleReplace :call <SID>MultiplyReplace()<CR>
 
   if !hasmapto('<Plug>SearchPartyMultipleReplace')
     nmap <unique> <silent> <leader>mp <Plug>SearchPartyMultipleReplace
