@@ -334,7 +334,7 @@ nnoremap <Plug>SearchPartyMultipleReplace :let _vsp_mr_search_term=input('Search
   " Search Within A Range {{{2
   " ---------------------
 
-  command! -range=% -nargs=* RSearch /\%(\%><line1>l\%<<line2>l\)\&\%(<args>\)/
+  command! -range=% -nargs=* RSearch exe '/\%(\%>'.(<line1>-1).'l\%<'.(<line2>+1).'l\)\&\%(<args>\)/'
 
   " Mash {{{2
   " ----

@@ -48,6 +48,15 @@ magic) search:
              |<Up>| key scrolls through prior literal search history.
              <Plug>SearchPartyFindLiteral
 
+Ranged Search~
+
+E.g.:
+>
+  7,12 RSearch foo
+<
+Searches for "foo" only within the range from lines 7 through 12, both
+inclusive. The default range is % (the whole buffer).
+
 Multiple Replacements~
 
   <leader>mp Prompts for a Search Term and then prompts for
@@ -94,7 +103,7 @@ The :P command can be used as a standalone command too:
 Will show lines 10 through 20, highlighting all occurrences of the current
 search pattern.
 
-Pattern Searches~
+Set Search~
 
   <leader>ms Prompts for a pattern and sets the current search to that pattern
              without moving the cursor to the next match of that pattern.
