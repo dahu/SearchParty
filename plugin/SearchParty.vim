@@ -217,7 +217,7 @@ command! -bar -nargs=1 SearchPartyMatchNumber call SearchPartyMatchNumber(<args>
 " Search Highlighting {{{2
 "--------------------
 " Temporarily clear highlighting
-nnoremap <Plug>SearchPartyHighlightClear :call <SID>UnMash()<CR>:noh<cr>
+nnoremap <Plug>SearchPartyHighlightClear :call <SID>UnMash()<bar>:noh<cr>
 
 if !hasmapto('<Plug>SearchPartyHighlightClear')
   nmap <unique> <silent> <c-l> <c-l><Plug>SearchPartyHighlightClear
