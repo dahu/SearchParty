@@ -346,7 +346,7 @@ nnoremap <Plug>SearchPartyMultipleReplace :call <SID>MultiplyReplace()<CR>
     endfor
   endfunction
 
-  command! -range P <line1>,<line2>call PrintWithHighlighting()
+  command! -range=% P <line1>,<line2>call PrintWithHighlighting()
 
   " Search Within A Range {{{2
   " ---------------------
