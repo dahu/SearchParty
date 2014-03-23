@@ -321,7 +321,11 @@ nnoremap <Plug>SearchPartyMultipleReplace :call <SID>MultiplyReplace()<CR>
   " ---------------------
   " (Original Code by Jürgen Krämer on vim-dev)
 
-  function! PrintWithHighlighting() range
+  function! PrintWithHighlighting(term) range
+    let term = a:term
+    if term == ''
+      let term = @/
+    endif
     let lnum = a:firstline
     let lnum_len = len(line('$'))
     for line in getline(a:firstline, a:lastline)
@@ -330,8 +334,8 @@ nnoremap <Plug>SearchPartyMultipleReplace :call <SID>MultiplyReplace()<CR>
       echohl none
       let lnum += 1
 
-      let ms = match(line, @/)
-      let me = matchend(line, @/)
+      let ms = match(line, term)
+      let me = matchend(line, term)
       while ms != -1 && ms != me
         echohl none
         echon strpart(line, 0, ms)
@@ -339,14 +343,14 @@ nnoremap <Plug>SearchPartyMultipleReplace :call <SID>MultiplyReplace()<CR>
         echon strpart(line, ms, me - ms)
         echohl none
         let line = strpart(line, me)
-        let ms = match(line, @/)
-        let me = matchend(line, @/)
+        let ms = match(line, term)
+        let me = matchend(line, term)
       endwhile
       echon line . "\n"
     endfor
   endfunction
 
-  command! -range=% P <line1>,<line2>call PrintWithHighlighting()
+  command! -range=% -nargs=* P <line1>,<line2>call PrintWithHighlighting(<q-args>)
 
   " Search Within A Range {{{2
   " ---------------------
