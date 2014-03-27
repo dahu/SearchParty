@@ -149,7 +149,8 @@ endfunction
 
 " Options
 " Mash FOW enabled?:
-"let b:mash_use_fow = 0
+
+autocmd BufRead,BufNew * let b:mash_use_fow = 0
 
 function! SearchPartyMash()
   try
