@@ -2,7 +2,7 @@
 " Extended search tools for Vim
 " Maintainers:	Barry Arthur <barry.arthur@gmail.com>
 " 		Israel Chauca F. <israelchauca@gmail.com>
-" Version:	0.3
+" Version:	0.4
 " Description:	Commands and maps for extended searches in Vim
 " Last Change:	2012-06-29
 " License:	Vim License (see :help license)
@@ -14,14 +14,14 @@
 " :helptags ~/.vim/doc
 " :help SearchParty
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let s:SearchParty_version = '0.3'   " the M.A.S.H merger
+let s:SearchParty_version = '0.4'   " reorganisation; added SearchHighlightReplace
 
 " Vimscript Setup: {{{1
 " Allow use of line continuation.
 let s:save_cpo = &cpo
 set cpo&vim
 
-" load guard
+" load guard {{{2
 " uncomment after plugin development
 "if exists("g:loaded_SearchParty")
 "      \ || v:version < 700
@@ -34,26 +34,13 @@ set cpo&vim
 
 " Our private history.
 let s:search_literal_hist = exists('s:search_literal_hist') ? s:search_literal_hist : []
-let s:match_hist = exists('s:match_hist') ? s:match_hist : []
-let s:matches = repeat([0], 6)
-let s:match_num = 0
-
-" default match colours
-try | silent hi SPM1 | catch /^Vim\%((\a\+)\)\=:E411/ | hi SPM1 ctermbg=1 guibg=red    | endtry
-try | silent hi SPM2 | catch /^Vim\%((\a\+)\)\=:E411/ | hi SPM2 ctermbg=2 guibg=green  | endtry
-try | silent hi SPM3 | catch /^Vim\%((\a\+)\)\=:E411/ | hi SPM3 ctermbg=3 guibg=yellow | endtry
-try | silent hi SPM4 | catch /^Vim\%((\a\+)\)\=:E411/ | hi SPM4 ctermbg=4 guibg=blue   | endtry
-try | silent hi SPM5 | catch /^Vim\%((\a\+)\)\=:E411/ | hi SPM5 ctermbg=5 guibg=purple | endtry
-try | silent hi SPM6 | catch /^Vim\%((\a\+)\)\=:E411/ | hi SPM6 ctermbg=6 guibg=cyan   | endtry
-try | silent hi MashFOW | catch /^Vim\%((\a\+)\)\=:E411/ | hi MashFOW ctermfg=grey ctermbg=NONE guifg=grey guibg=NONE | endtry
 
 " Options: {{{1
 "if !exists('g:somevar')
-  "let g:somevar = 0
+"let g:somevar = 0
 "endif
 
-" Functions:{{{1
-" Literal Search {{{2
+" Literal Search {{{1
 " --------------
 function! s:FindLiteral(...)
   " First, empty the input history.
@@ -66,7 +53,7 @@ function! s:FindLiteral(...)
   let search_cmd = a:0 && a:1 ? '/' : '?'
   " Get user's input.
   let input = input(prompt)
-   "Thanks to \V only slashes and, backslashes or question marks need to be escaped.
+  "Thanks to \V only slashes and, backslashes or question marks need to be escaped.
   let escaped = a:0 && a:1 ? escape(input, '\/') : escape(input, '\?')
   " Allow control chars.
   call join(map(split(escaped, '\zs'), 'v:val =~# [[:control:]] ? "\<C-V>".v:val : v:val'))
@@ -81,8 +68,32 @@ function! s:FindLiteral(...)
   call add(s:search_literal_hist, input)
 endfunction
 
-" SearchParty arbitrary matches {{{2
+nnoremap <silent> <Plug>SearchPartyFindLiteralFwd :<C-U>call <SID>FindLiteral(1)<CR>
+
+if !hasmapto('<Plug>SearchPartyFindLiteralFwd')
+  nmap <unique> <silent> <leader>/ <Plug>SearchPartyFindLiteralFwd
+endif
+
+nnoremap <silent> <Plug>SearchPartyFindLiteralBkwd :<C-U>call <SID>FindLiteral(0)<CR>
+if !hasmapto('<Plug>SearchPartyFindLiteralBkwd')
+  nmap <unique> <silent> <leader>? <Plug>SearchPartyFindLiteralBkwd
+endif
+
+" SearchParty arbitrary matches {{{1
 " -----------------------------
+let s:match_hist = exists('s:match_hist') ? s:match_hist : []
+let s:matches = repeat([0], 6)
+let s:match_num = 0
+
+" default match colours
+try | silent hi SPM1 | catch /^Vim\%((\a\+)\)\=:E411/ | hi SPM1 ctermbg=1 guibg=red    | endtry
+try | silent hi SPM2 | catch /^Vim\%((\a\+)\)\=:E411/ | hi SPM2 ctermbg=2 guibg=green  | endtry
+try | silent hi SPM3 | catch /^Vim\%((\a\+)\)\=:E411/ | hi SPM3 ctermbg=3 guibg=yellow | endtry
+try | silent hi SPM4 | catch /^Vim\%((\a\+)\)\=:E411/ | hi SPM4 ctermbg=4 guibg=blue   | endtry
+try | silent hi SPM5 | catch /^Vim\%((\a\+)\)\=:E411/ | hi SPM5 ctermbg=5 guibg=purple | endtry
+try | silent hi SPM6 | catch /^Vim\%((\a\+)\)\=:E411/ | hi SPM6 ctermbg=6 guibg=cyan   | endtry
+try | silent hi MashFOW | catch /^Vim\%((\a\+)\)\=:E411/ | hi MashFOW ctermfg=grey ctermbg=NONE guifg=grey guibg=NONE | endtry
+
 function! s:Match()
   if s:matches[s:match_num] != 0
     echom "Warning: Overriding prior match number " . (s:match_num + 1)
@@ -141,8 +152,24 @@ function! SearchPartyMatchNumber(num)
   echom "Search Party Match Number: " . num
 endfunction
 
+nnoremap <Plug>SearchPartySetMatch :call <SID>Match()<cr>
+nnoremap <Plug>SearchPartyDeleteMatch :call SearchPartyMatchDelete()<CR>
 
-" M.A.S.H {{{2
+if !hasmapto('<Plug>SearchPartySetMatch')
+  nmap <unique> <leader>mm <Plug>SearchPartySetMatch<CR>
+endif
+
+if !hasmapto('<Plug>SearchPartyDeleteMatch')
+  nmap <unique> <leader>md <Plug>SearchPartyDeleteMatch
+endif
+
+command! -bar -nargs=0 SearchPartyMatchList call SearchPartyMatchList()
+
+command! -bar -nargs=? SearchPartyMatchDelete call SearchPartyMatchDelete(<args>)
+
+command! -bar -nargs=1 SearchPartyMatchNumber call SearchPartyMatchNumber(<args>)
+
+" M.A.S.H {{{1
 " -------
 
 " Grey fog of war
@@ -174,7 +201,25 @@ function! s:UnMash()
   endtry
 endfunction
 
-" Multiple Replacements {{{2
+" Shadow Maps
+for lhs in ['n', 'N', '#', '*', 'g#', 'g*']
+  exec 'nnoremap <silent> <Plug>SearchPartyMashShadow' . lhs . ' ' . lhs . ':call SearchPartyMash()<CR>'
+  if !hasmapto('<Plug>SearchPartyMashShadow' . lhs)
+    exec 'silent! nmap <unique> ' . lhs . ' <Plug>SearchPartyMashShadow'.lhs
+  endif
+endfor
+
+"TODO can't use a b: var here!
+let b:mash_use_fow = 0
+nnoremap <silent> <Plug>SearchPartyMashFOWToggle  :let b:mash_use_fow = b:mash_use_fow ? 0 : 1<CR>:call SearchPartyMash()<CR>
+
+if !hasmapto('<Plug>SearchPartyMashFOWToggle')
+  nmap <unique> <leader>mf <Plug>SearchPartyMashFOWToggle
+endif
+
+nmap <silent> <Plug>MashFOWToggle  <Plug>SearchPartyMashFOWToggle
+
+" Multiple Replacements {{{1
 " ---------------------
 
 function! s:MultiplyReplace()
@@ -191,7 +236,13 @@ function! s:MultiplyReplace()
   call setpos('.', pos)
 endfunction
 
-" Toggle Auto Highlight Cursor Word {{{2
+nnoremap <Plug>SearchPartyMultipleReplace :call <SID>MultiplyReplace()<CR>
+
+if !hasmapto('<Plug>SearchPartyMultipleReplace')
+  nmap <unique> <silent> <leader>mp <Plug>SearchPartyMultipleReplace
+endif
+
+" Toggle Auto Highlight Cursor Word {{{1
 " ---------------------------------
 
 function! s:ToggleAHCW()
@@ -200,185 +251,199 @@ function! s:ToggleAHCW()
       au!
     augroup END
     augroup! SearchPartyTAHW
-  else
-    augroup SearchPartyTAHW
-      au! CursorHold * call feedkeys("\<Plug>SearchPartyHighlightWord")
-    augroup END
+    else
+      augroup SearchPartyTAHW
+        au! CursorHold * call feedkeys("\<Plug>SearchPartyHighlightWord")
+      augroup END
+    endif
+  endfunction
+
+  nnoremap <Plug>SearchPartyToggleAutoHighlightWord :call <SID>ToggleAHCW()<CR>
+
+  if !hasmapto('<Plug>SearchPartyToggleAutoHighlightWord')
+    nmap <unique> <silent> <leader>mah <Plug>SearchPartyToggleAutoHighlightWord
   endif
-endfunction
 
-" Commands: {{{1
-command! -bar -nargs=0 SearchPartyMatchList call SearchPartyMatchList()
 
-command! -bar -nargs=? SearchPartyMatchDelete call SearchPartyMatchDelete(<args>)
 
-command! -bar -nargs=1 SearchPartyMatchNumber call SearchPartyMatchNumber(<args>)
+  " Search Highlighting {{{1
+  "--------------------
+  " Temporarily clear highlighting
+  nnoremap <Plug>SearchPartyHighlightClear :call <SID>UnMash()<bar>:noh<cr>
 
-" Mappings:{{{1
-" Search Highlighting {{{2
-"--------------------
-" Temporarily clear highlighting
-nnoremap <Plug>SearchPartyHighlightClear :call <SID>UnMash()<bar>:noh<cr>
+  if !hasmapto('<Plug>SearchPartyHighlightClear')
+    nmap <unique> <silent> <c-l> <c-l><Plug>SearchPartyHighlightClear
+  endif
 
-if !hasmapto('<Plug>SearchPartyHighlightClear')
-  nmap <unique> <silent> <c-l> <c-l><Plug>SearchPartyHighlightClear
-endif
+  " Toggle search highlighting
+  nnoremap <Plug>SearchPartyHighlightToggle :set invhlsearch hlsearch?<cr>
 
-" Toggle search highlighting
-nnoremap <Plug>SearchPartyHighlightToggle :set invhlsearch hlsearch?<cr>
+  if !hasmapto('<Plug>SearchPartyHighlightToggle')
+    nmap <unique> <silent> <c-Bslash> <Plug>SearchPartyHighlightToggle
+  endif
 
-if !hasmapto('<Plug>SearchPartyHighlightToggle')
-  nmap <unique> <silent> <c-Bslash> <Plug>SearchPartyHighlightToggle
-endif
-
-" Highlight all occurrences of word under cursor
-nnoremap <Plug>SearchPartyHighlightWord :let @/='\<'.expand('<cword>').'\>'<bar>set hlsearch<cr>viwo<esc>
+  " Highlight all occurrences of word under cursor
+  nnoremap <Plug>SearchPartyHighlightWord
+        \ :let @/='\<'.expand('<cword>').'\>'<bar>set hlsearch<cr>viwo<esc>
 
 if !hasmapto('<Plug>SearchPartyHighlightWord')
   nmap <unique> <silent> <leader>* <Plug>SearchPartyHighlightWord
 endif
 
-" Toggle Automatic Highlight of all occurrences of word under cursor
-nnoremap <Plug>SearchPartyToggleAutoHighlightWord :call <SID>ToggleAHCW()<CR>
-
-if !hasmapto('<Plug>SearchPartyToggleAutoHighlightWord')
-  nmap <unique> <silent> <leader>mah <Plug>SearchPartyToggleAutoHighlightWord
-endif
-
 " Highlight all occurrences of WORD under cursor
-nnoremap <Plug>SearchPartyHighlightWORD :let @/=expand('<cWORD>')<bar>set hlsearch<cr>
+nnoremap <Plug>SearchPartyHighlightWORD
+      \ :let @/=expand('<cWORD>')<bar>set hlsearch<cr>
 
 if !hasmapto('<Plug>SearchPartyHighlightWORD')
   nmap <unique> <silent> <leader>g* <Plug>SearchPartyHighlightWORD
 endif
 
-" SearchParty arbitrary matches {{{2
+" Manual Search Term from input
 " -----------------------------
-nnoremap <Plug>SearchPartySetMatch :call <SID>Match()<cr>
-nnoremap <Plug>SearchPartyDeleteMatch :call SearchPartyMatchDelete()<CR>
-
-
-if !hasmapto('<Plug>SearchPartySetMatch')
-  nmap <unique> <leader>mm <Plug>SearchPartySetMatch<CR>
-endif
-
-if !hasmapto('<Plug>SearchPartyDeleteMatch')
-  nmap <unique> <leader>md <Plug>SearchPartyDeleteMatch
-endif
-
-" Manual Search Term from input {{{2
-" -----------------------------
-nnoremap <Plug>SearchPartySetSearch :let @/=input("set search: ")<bar>set hlsearch<cr>
+nnoremap <Plug>SearchPartySetSearch
+      \ :let @/=input("set search: ")<bar>set hlsearch<cr>
 
 if !hasmapto('<Plug>SearchPartySetSearch')
   nmap <unique> <silent> <leader>ms <Plug>SearchPartySetSearch
 endif
 
-" Multiple rePlace {{{2
-" ----------------
-" Use <leader>mp in normal mode to replace a term with multiple different values
-nnoremap <Plug>SearchPartyMultipleReplace :call <SID>MultiplyReplace()<CR>
+" Visual Search & Replace
+" -----------------------
+" Use * and # in visual mode to search for visual selection
+" Use & in visual mode to prime a substitute based on visual selection
 
-  if !hasmapto('<Plug>SearchPartyMultipleReplace')
-    nmap <unique> <silent> <leader>mp <Plug>SearchPartyMultipleReplace
+xnoremap <Plug>SearchPartyVisualFindNext   "*y<Esc>/<c-r>=substitute(escape(@*, '\/.*$^~[]'), "\n", '\\n', "g")<cr><cr>
+
+if !hasmapto('<Plug>SearchPartyVisualFindNext')
+  xmap <unique> <silent> * <Plug>SearchPartyVisualFindNext
+endif
+
+xnoremap <Plug>SearchPartyVisualFindPrev   "*y<Esc>?<c-r>=substitute(escape(@*, '\/.*$^~[]'), "\n", '\\n', "g")<cr><cr>
+
+if !hasmapto('<Plug>SearchPartyVisualFindPrev')
+  xmap <unique> <silent> # <Plug>SearchPartyVisualFindPrev
+endif
+
+xnoremap <Plug>SearchPartyVisualSubstitute "*y<Esc>:<c-u>%s/<c-r>=substitute(escape(@*, '\/.*$^~[]'), "\n", '\\n', "g")<cr>/
+
+if !hasmapto('<Plug>SearchPartyVisualSubstitute')
+  xmap <unique> & <Plug>SearchPartyVisualSubstitute
+endif
+
+
+" PrintWithHighlighting {{{1
+" ---------------------
+" (Original Code by Jürgen Krämer on vim-dev)
+
+function! PrintWithHighlighting(term) range
+  let term = a:term
+  if term == ''
+    let term = @/
   endif
+  let lnum = a:firstline
+  let lnum_len = len(line('$'))
+  for line in getline(a:firstline, a:lastline)
+    echohl LineNr
+    echon printf("%*s ", lnum_len, lnum)
+    echohl none
+    let lnum += 1
 
-
-  " Visual Search & Replace {{{2
-  " -----------------------
-  " Use * and # in visual mode to search for visual selection
-  xnoremap <Plug>SearchPartyVisualFindNext   "*y<Esc>/<c-r>=substitute(escape(@*, '\/.*$^~[]'), "\n", '\\n', "g")<cr><cr>
-
-  xnoremap <Plug>SearchPartyVisualFindPrev   "*y<Esc>?<c-r>=substitute(escape(@*, '\/.*$^~[]'), "\n", '\\n', "g")<cr><cr>
-
-  " Use & in visual mode to prime a substitute based on visual selection
-  xnoremap <Plug>SearchPartyVisualSubstitute "*y<Esc>:<c-u>%s/<c-r>=substitute(escape(@*, '\/.*$^~[]'), "\n", '\\n', "g")<cr>/
-
-  if !hasmapto('<Plug>SearchPartyVisualFindNext')
-    xmap <unique> <silent> * <Plug>SearchPartyVisualFindNext
-  endif
-
-  if !hasmapto('<Plug>SearchPartyVisualFindPrev')
-    xmap <unique> <silent> # <Plug>SearchPartyVisualFindPrev
-  endif
-
-  if !hasmapto('<Plug>SearchPartyVisualSubstitute')
-    xmap <unique> & <Plug>SearchPartyVisualSubstitute
-  endif
-
-  " Search Literal {{{2
-  " --------------
-  nnoremap <silent> <Plug>SearchPartyFindLiteralFwd :<C-U>call <SID>FindLiteral(1)<CR>
-  nnoremap <silent> <Plug>SearchPartyFindLiteralBkwd :<C-U>call <SID>FindLiteral(0)<CR>
-
-  if !hasmapto('<Plug>SearchPartyFindLiteralFwd')
-    nmap <unique> <silent> <leader>/ <Plug>SearchPartyFindLiteralFwd
-  endif
-  if !hasmapto('<Plug>SearchPartyFindLiteralBkwd')
-    nmap <unique> <silent> <leader>? <Plug>SearchPartyFindLiteralBkwd
-  endif
-
-  " PrintWithHighlighting {{{2
-  " ---------------------
-  " (Original Code by Jürgen Krämer on vim-dev)
-
-  function! PrintWithHighlighting(term) range
-    let term = a:term
-    if term == ''
-      let term = @/
-    endif
-    let lnum = a:firstline
-    let lnum_len = len(line('$'))
-    for line in getline(a:firstline, a:lastline)
-      echohl LineNr
-      echon printf("%*s ", lnum_len, lnum)
+    let ms = match(line, term)
+    let me = matchend(line, term)
+    while ms != -1 && ms != me
       echohl none
-      let lnum += 1
-
+      echon strpart(line, 0, ms)
+      echohl Search
+      echon strpart(line, ms, me - ms)
+      echohl none
+      let line = strpart(line, me)
       let ms = match(line, term)
       let me = matchend(line, term)
-      while ms != -1 && ms != me
-        echohl none
-        echon strpart(line, 0, ms)
-        echohl Search
-        echon strpart(line, ms, me - ms)
-        echohl none
-        let line = strpart(line, me)
-        let ms = match(line, term)
-        let me = matchend(line, term)
-      endwhile
-      echon line . "\n"
-    endfor
-  endfunction
-
-  command! -range=% -nargs=* P <line1>,<line2>call PrintWithHighlighting(<q-args>)
-
-  " Search Within A Range {{{2
-  " ---------------------
-
-  command! -range=% -nargs=* RSearch exe '/\%(\%>'.(<line1>-1).'l\%<'.(<line2>+1).'l\)\&\%(<args>\)/'
-
-  " Mash {{{2
-  " ----
-  " Shadow Maps
-  for lhs in ['n', 'N', '#', '*', 'g#', 'g*']
-    exec 'nnoremap <silent> <Plug>SearchPartyMashShadow' . lhs . ' ' . lhs . ':call SearchPartyMash()<CR>'
-    if !hasmapto('<Plug>SearchPartyMashShadow' . lhs)
-      exec 'silent! nmap <unique> ' . lhs . ' <Plug>SearchPartyMashShadow'.lhs
-    endif
+    endwhile
+    echon line . "\n"
   endfor
+endfunction
 
-  let b:mash_use_fow = 0
-  nnoremap <silent> <Plug>SearchPartyMashFOWToggle  :let b:mash_use_fow = b:mash_use_fow ? 0 : 1<CR>:call SearchPartyMash()<CR>
+command! -range=% -nargs=* P <line1>,<line2>call PrintWithHighlighting(<q-args>)
 
-  if !hasmapto('<Plug>SearchPartyMashFOWToggle')
-    nmap <unique> <leader>mf <Plug>SearchPartyMashFOWToggle
-  endif
+" Search Within A Range {{{1
+" ---------------------
 
-  nmap <silent> <Plug>MashFOWToggle  <Plug>SearchPartyMashFOWToggle
+command! -range=% -nargs=* RSearch exe '/\%(\%>'.(<line1>-1).'l\%<'.(<line2>+1).'l\)\&\%(<args>\)/'
 
-  " Teardown:{{{1
-  "reset &cpo back to users setting
-  let &cpo = s:save_cpo
+" Replace Within SearchHighlights {{{1
+" -------------------------------
 
-  " vim: set sw=2 sts=2 et fdm=marker:
+" for all matches, prepend SHR^@
+" for all SHR^@,
+"   delete SHR^@
+"   perform visual subst
+" cleanup any remaining SHR^@ (shouldn't be any)
+
+function! s:SHR_mark(mtch) range
+endfunction
+
+function! s:SHR_sweep(mtch, srch, repl, glbl) range
+endfunction
+
+function! SearchHighlightReplace() range
+  let save_wrapscan = &ws
+  let save_gdefault = &gd
+  set nows
+  set nogd
+  let mtch = @/
+  let srch = input('Search: /')
+  let repl = input('Replace: /')
+  let glbl = input('All? [gy]==yes ') =~# '[yg]' ? 'g' : ''
+
+  " mark the matches
+  exe 'normal! ' . a:firstline . 'gg0'
+  let counter = Series(0, 1, '%03d')
+  let found = search(mtch, 'cW')
+  while found && (found <= a:lastline)
+    let c = counter.next()
+    exe "normal! iSHR>_" . c . "\<esc>"
+    call search(mtch, 'ceW')
+    exe "normal! aSHR<_" . c . "\<esc>"
+    let found = search(mtch, 'cW')
+  endwhile
+
+  " sweep the marks
+  exe 'normal! ' . a:firstline . 'gg0'
+  let counter = Series(0, 1, '%03d')
+  let c = counter.next()
+  let found = search("SHR>_" . c . ".", 'ceW')
+  while found
+    echom 'found=' . found
+    try
+      exe 'normal! v/' . mtch . '\zeSHR<_' . c . "/e\<cr>l\<esc>"
+    catch /^Vim\%((\a\+)\)\=:E385/
+      break
+    endtry
+    exe 's/\m\%V' . srch . '\m\%V/' . repl . '/e' . glbl
+    call histdel('/', -1)
+    let c = counter.next()
+    let found = search("SHR>_" . c . ".", 'ceW')
+  endwhile
+
+  " remove marks
+  exe a:firstline . ',' . a:lastline . 's/SHR[><]_\d\{3}//ge'
+
+  let &ws = save_wrapscan
+  let &gd = save_gdefault
+  let @/ = mtch
+endfunction
+
+nnoremap <Plug>SearchPartySearchHighlightReplace :call SearchHighlightReplace()<CR>
+
+if !hasmapto('<Plug>SearchPartySearchHighlightReplace')
+  nmap <unique> <silent> <leader>mar <Plug>SearchPartySearchHighlightReplace
+endif
+
+command! -range=% -nargs=0 SearchHighlightReplace <line1>,<line2>call SearchHighlightReplace()
+
+" Teardown:{{{1
+"reset &cpo back to users setting
+let &cpo = s:save_cpo
+
+" vim: set sw=2 sts=2 et fdm=marker:
