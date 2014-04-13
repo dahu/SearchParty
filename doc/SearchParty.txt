@@ -65,6 +65,12 @@ Multiple Replacements~
              minus one, and the Search Term is then replaced on each
              line with each successive Replacement.
 
+  <leader>mar Prompts for a Search Term and a Replace Term and whether
+              you want to use global replacement. The currently
+              highlighted search terms will then have Search Term
+              replaced with Replace Term. This command honours a given
+              range.
+
 Search Highlighting~
 
 SearchParty provides the following normal mode search highlight tools:

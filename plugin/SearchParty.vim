@@ -438,10 +438,14 @@ function! SearchHighlightReplace() range
   let @/ = mtch
 endfunction
 
-nnoremap <Plug>SearchPartySearchHighlightReplace :call SearchHighlightReplace()<CR>
+noremap <Plug>SearchPartySearchHighlightReplace :call SearchHighlightReplace()<CR>
 
-if !hasmapto('<Plug>SearchPartySearchHighlightReplace')
+if !hasmapto('<Plug>SearchPartySearchHighlightReplace', 'n')
   nmap <unique> <silent> <leader>mar <Plug>SearchPartySearchHighlightReplace
+endif
+
+if !hasmapto('<Plug>SearchPartySearchHighlightReplace', 'v')
+  xmap <unique> <silent> <leader>mar <Plug>SearchPartySearchHighlightReplace
 endif
 
 command! -range=% -nargs=0 SearchHighlightReplace <line1>,<line2>call SearchHighlightReplace()
