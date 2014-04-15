@@ -76,9 +76,12 @@ command! -bar -nargs=1 SearchPartyMatchNumber
 
 " M.A.S.H {{{1
 
+hi MashFOW ctermfg=black ctermbg=NONE guifg=black guibg=NONE
+
 augroup SP_MASH
   au!
   autocmd BufRead,BufNew * let b:mash_use_fow = 0
+  autocmd CursorHold * call searchparty#mash#mash()
 augroup END
 
 " Shadow Maps
