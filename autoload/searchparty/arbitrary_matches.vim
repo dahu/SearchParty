@@ -26,8 +26,8 @@ function! searchparty#arbitrary_matches#match()
   if s:matches[s:match_num] != 0
     call matchdelete(s:matches[s:match_num])
   endif
-  " use priority -1 so normal searches show above SP matches
-  let s:matches[s:match_num] = matchadd('SPM' . (s:match_num + 1), pattern, -1)
+  " use priority 2 so matches overrule FOW
+  let s:matches[s:match_num] = matchadd('SPM' . (s:match_num + 1), pattern, 2)
   let s:match_num = (s:match_num + 1) % len(s:matches)
 endfunction
 

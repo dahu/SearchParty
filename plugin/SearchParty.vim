@@ -81,7 +81,6 @@ hi MashFOW ctermfg=black ctermbg=NONE guifg=black guibg=NONE
 augroup SP_MASH
   au!
   autocmd BufRead,BufNew * let b:mash_use_fow = 0
-  autocmd CursorHold * call searchparty#mash#mash()
 augroup END
 
 " Shadow Maps
@@ -92,6 +91,9 @@ for lhs in ['n', 'N', '#', '*', 'g#', 'g*']
     exec 'silent! nmap <unique> ' . lhs . ' <Plug>SearchPartyMashShadow'.lhs
   endif
 endfor
+
+nnoremap / :call searchparty#mash#unmash()<cr>/
+nnoremap ? :call searchparty#mash#unmash()<cr>?
 
 nnoremap <silent> <Plug>SearchPartyMashFOWToggle
       \ :let b:mash_use_fow = b:mash_use_fow ? 0 : 1<CR>
