@@ -97,7 +97,7 @@ nnoremap ? :call searchparty#mash#unmash()<cr>?
 
 nnoremap <silent> <Plug>SearchPartyMashFOWToggle
       \ :let b:mash_use_fow = b:mash_use_fow ? 0 : 1<CR>
-      \ :call searchparty#mash#mash()<CR>
+      \:call searchparty#mash#mash()<CR>
 
 if !hasmapto('<Plug>SearchPartyMashFOWToggle')
   nmap <unique> <leader>mf <Plug>SearchPartyMashFOWToggle
@@ -119,7 +119,8 @@ endif
   "--------------------
   " Temporarily clear highlighting
   nnoremap <Plug>SearchPartyHighlightClear
-        \ :call searchparty#mash#unmash()<bar>:noh<cr>
+        \ :let b:mash_use_fow = 0<cr>
+        \:call searchparty#mash#unmash()<bar>:noh<cr>
 
   if !hasmapto('<Plug>SearchPartyHighlightClear')
     nmap <unique> <silent> <c-l> <c-l><Plug>SearchPartyHighlightClear

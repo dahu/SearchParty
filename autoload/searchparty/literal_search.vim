@@ -22,7 +22,7 @@ function! searchparty#literal_search#find_literal(...)
     return
   endif
   " Perform the search after we're done.
-  call feedkeys("\<Esc>" . search_cmd . "\\V" . escaped . "\<CR>", 'n')
+  call feedkeys("\<c-\>\<c-n>" . search_cmd . "\\V" . escaped . "\<CR>", 'n')
   call feedkeys(":call searchparty#mash#mash()\<CR>\<C-L>", 'n')
   "Add current string to our private history.
   call add(s:search_literal_hist, input)
