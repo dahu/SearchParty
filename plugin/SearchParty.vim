@@ -2,9 +2,9 @@
 " Extended search tools for Vim
 " Maintainers:	Barry Arthur <barry.arthur@gmail.com>
 " 		Israel Chauca F. <israelchauca@gmail.com>
-" Version:	0.5
+" Version:	0.6
 " Description:	Commands and maps for extended searches in Vim
-" Last Change:	2012-06-29
+" Last Change:	2014-09-30
 " License:	Vim License (see :help license)
 " Location:	plugin/SearchParty.vim
 " Website:	https://github.com/dahu/SearchParty
@@ -14,7 +14,7 @@
 " :helptags ~/.vim/doc
 " :help SearchParty
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let s:SearchParty_version = '0.5'   " reorganisation - split into autoload modules
+let s:SearchParty_version = '0.6'   " play nice with vim-indexed-search
 
 " Vimscript Setup: {{{1
 " Allow use of line continuation.
@@ -115,27 +115,27 @@ if !hasmapto('<Plug>SearchPartyMultipleReplace')
   nmap <unique> <silent> <leader>mp <Plug>SearchPartyMultipleReplace
 endif
 
-  " Search Highlighting {{{1
-  "--------------------
-  " Temporarily clear highlighting
-  nnoremap <Plug>SearchPartyHighlightClear
-        \ :let b:mash_use_fow = 0<cr>
-        \:call searchparty#mash#unmash()<bar>:noh<cr>
+" Search Highlighting {{{1
+"--------------------
+" Temporarily clear highlighting
+nnoremap <Plug>SearchPartyHighlightClear
+      \ :let b:mash_use_fow = 0<cr>
+      \:call searchparty#mash#unmash()<bar>:noh<cr>
 
-  if !hasmapto('<Plug>SearchPartyHighlightClear')
-    nmap <unique> <silent> <c-l> <c-l><Plug>SearchPartyHighlightClear
-  endif
+if !hasmapto('<Plug>SearchPartyHighlightClear')
+  nmap <unique> <silent> <c-l> <c-l><Plug>SearchPartyHighlightClear
+endif
 
-  " Toggle search highlighting
-  nnoremap <Plug>SearchPartyHighlightToggle :set invhlsearch hlsearch?<cr>
+" Toggle search highlighting
+nnoremap <Plug>SearchPartyHighlightToggle :set invhlsearch hlsearch?<cr>
 
-  if !hasmapto('<Plug>SearchPartyHighlightToggle')
-    nmap <unique> <silent> <c-Bslash> <Plug>SearchPartyHighlightToggle
-  endif
+if !hasmapto('<Plug>SearchPartyHighlightToggle')
+  nmap <unique> <silent> <c-Bslash> <Plug>SearchPartyHighlightToggle
+endif
 
-  " Highlight all occurrences of word under cursor
-  nnoremap <Plug>SearchPartyHighlightWord
-        \ :let @/='\<'.expand('<cword>').'\>'<bar>set hlsearch<cr>viwo<esc>
+" Highlight all occurrences of word under cursor
+nnoremap <Plug>SearchPartyHighlightWord
+      \ :let @/='\<'.expand('<cword>').'\>'<bar>set hlsearch<cr>viwo<esc>
 
 if !hasmapto('<Plug>SearchPartyHighlightWord')
   nmap <unique> <silent> <leader>* <Plug>SearchPartyHighlightWord
@@ -184,12 +184,12 @@ endif
 " Toggle Auto Highlight Cursor Word {{{1
 " ---------------------------------
 
-  nnoremap <Plug>SearchPartyToggleAutoHighlightWord
-        \ :call searchparty#search_highlights#toggle_AHCW()<CR>
+nnoremap <Plug>SearchPartyToggleAutoHighlightWord
+      \ :call searchparty#search_highlights#toggle_AHCW()<CR>
 
-  if !hasmapto('<Plug>SearchPartyToggleAutoHighlightWord')
-    nmap <unique> <silent> <leader>mah <Plug>SearchPartyToggleAutoHighlightWord
-  endif
+if !hasmapto('<Plug>SearchPartyToggleAutoHighlightWord')
+  nmap <unique> <silent> <leader>mah <Plug>SearchPartyToggleAutoHighlightWord
+endif
 
 " PrintWithHighlighting {{{1
 

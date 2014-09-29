@@ -132,3 +132,6 @@ current search match highlighter. Breaking that down for you, it highlights
 the match under the cursor differently to all the other matches (if you have
 :set hlsearch activated). If you don't use hlsearch, then it will still
 highlight the current match.
+
+SearchParty's MASH now plays nice with
+https://github.com/henrik/vim-indexed-search[vim-indexed-search]
