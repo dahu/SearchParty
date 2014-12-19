@@ -141,6 +141,14 @@ if !hasmapto('<Plug>SearchPartyHighlightWord')
   nmap <unique> <silent> <leader>* <Plug>SearchPartyHighlightWord
 endif
 
+" Highlight all occurrences of visual selection
+xnoremap <Plug>SearchPartyHighlightVisual
+      \ :<c-U>let @/=searchparty#visual#element()<bar>set hlsearch<cr>
+
+if !hasmapto('<Plug>SearchPartyHighlightVisual')
+  xmap <unique> <silent> <leader>* <Plug>SearchPartyHighlightVisual
+endif
+
 " Highlight all occurrences of WORD under cursor
 nnoremap <Plug>SearchPartyHighlightWORD
       \ :let @/=expand('<cWORD>')<bar>set hlsearch<cr>

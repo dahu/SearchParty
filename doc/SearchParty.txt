@@ -92,6 +92,12 @@ SearchParty provides the following normal mode search highlight tools:
   <leader>g*  Highlights all occurrences of |WORD| under the cursor.
               <Plug>SearchPartyHighlightWORD
 
+SearchParty also provides the following visual mode search highlight tool:
+
+  <leader>*   Highlights all occurrences of the current visual selection.
+              <Plug>SearchPartyHighlightVisual
+
+
 Highlighting Print Command~
 
 SearchParty provides a command, :P, which highlights the current search term
