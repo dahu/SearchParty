@@ -2,13 +2,20 @@ let s:match_hist = exists('s:match_hist') ? s:match_hist : []
 let s:matches = repeat([0], 6)
 let s:match_num = 0
 
-" default match colours
-try | silent hi SPM1 | catch /^Vim\%((\a\+)\)\=:E411/ | hi SPM1 ctermbg=1 guibg=red    | endtry
-try | silent hi SPM2 | catch /^Vim\%((\a\+)\)\=:E411/ | hi SPM2 ctermbg=2 guibg=green  | endtry
-try | silent hi SPM3 | catch /^Vim\%((\a\+)\)\=:E411/ | hi SPM3 ctermbg=3 guibg=yellow | endtry
-try | silent hi SPM4 | catch /^Vim\%((\a\+)\)\=:E411/ | hi SPM4 ctermbg=4 guibg=blue   | endtry
-try | silent hi SPM5 | catch /^Vim\%((\a\+)\)\=:E411/ | hi SPM5 ctermbg=5 guibg=purple | endtry
-try | silent hi SPM6 | catch /^Vim\%((\a\+)\)\=:E411/ | hi SPM6 ctermbg=6 guibg=cyan   | endtry
+" default match colours now based on https://github.com/romainl/Apprentice
+try | silent hi SPM1 | catch /^Vim\%((\a\+)\)\=:E411/ | hi SPM1 ctermbg=208 ctermfg=238 guibg=#ff8700 guifg=#444444 | endtry
+
+try | silent hi SPM2 | catch /^Vim\%((\a\+)\)\=:E411/ | hi SPM2 ctermbg=229 ctermfg=238 guibg=#ffffaf guifg=#444444 | endtry
+
+try | silent hi SPM3 | catch /^Vim\%((\a\+)\)\=:E411/ | hi SPM3 ctermbg=66  ctermfg=238 guibg=#5f8787 guifg=#bcbcbc | endtry
+
+try | silent hi SPM4 | catch /^Vim\%((\a\+)\)\=:E411/ | hi SPM4 ctermbg=73  ctermfg=238 guibg=#5fafaf guifg=#444444 | endtry
+
+try | silent hi SPM5 | catch /^Vim\%((\a\+)\)\=:E411/ | hi SPM5 ctermbg=110 ctermfg=238 guibg=#8fafd7 guifg=#444444 | endtry
+
+try | silent hi SPM6 | catch /^Vim\%((\a\+)\)\=:E411/ | hi SPM6 ctermbg=103 ctermfg=238 guibg=#8787af guifg=#444444 | endtry
+
+
 try | silent hi MashFOW | catch /^Vim\%((\a\+)\)\=:E411/ | hi MashFOW ctermfg=grey ctermbg=NONE guifg=grey guibg=NONE | endtry
 
 function! searchparty#arbitrary_matches#match()
