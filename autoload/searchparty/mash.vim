@@ -14,6 +14,7 @@ endfunction
 function! searchparty#mash#mash()
   call searchparty#mash#init()
   call searchparty#mash#unmash()
+  let b:searching = 1
   if exists('b:mash_use_fow') && b:mash_use_fow
     let b:mash_fow_item = matchadd('MashFOW', '.*', 1)
     call matchadd('IncSearch',  (&ignorecase ? '\c' : '') . @/, 2, b:mash_search_item)

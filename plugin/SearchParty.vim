@@ -92,8 +92,35 @@ for lhs in ['n', 'N', '#', '*', 'g#', 'g*']
   endif
 endfor
 
-nnoremap / :call searchparty#mash#unmash()<cr>/
-nnoremap ? :call searchparty#mash#unmash()<cr>?
+function SPAfterSearch()
+  if b:searching
+    for x in range(10)
+      if exists('*AfterSearch_' . x)
+        call call('AfterSearch_' . x, [])
+      endif
+    endfor
+  endif
+  let b:searching = 0
+endfunction
+
+augroup SearchPartySearching
+  au!
+  au VimEnter * call SPInitialiseSearchMaps()
+  au BufEnter * let b:searching = 0
+  au CursorHold * call SPAfterSearch()
+augroup END
+
+function! SPInitialiseSearchMaps()
+  if exists(':ShowSearchIndex')
+    nnoremap / :call searchparty#mash#unmash()<bar>let b:searching=1<bar>ShowSearchIndex<cr>/
+    nnoremap ? :call searchparty#mash#unmash()<bar>let b:searching=1<bar>ShowSearchIndex<cr>?
+  else
+    nnoremap / :call searchparty#mash#unmash()<bar>let b:searching=1<cr>/
+    nnoremap ? :call searchparty#mash#unmash()<bar>let b:searching=1<cr>?
+  endif
+endfunction
+
+
 
 nnoremap <silent> <Plug>SearchPartyMashFOWToggle
       \ :let b:mash_use_fow = b:mash_use_fow ? 0 : 1<CR>
