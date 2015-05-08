@@ -7,6 +7,13 @@ TIP: If you like SearchParty and want to share the W00t!, I'm grateful for
 https://www.gittip.com/bairuidahu/[tips] or
 http://of-vim-and-vigor.blogspot.com/[beverages].
 
+AfterSearch Event
+~~~~~~~~~~~~~~~~~
+
+Functions matching the pattern `/AfterSearch_[0-9]/` will be called in
+numeric order after a search operation: `/` `?` `n` `N` `*` `#` `g*`
+`g#`.
+
 Visual Searches
 ~~~~~~~~~~~~~~~
 
