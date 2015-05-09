@@ -93,7 +93,7 @@ for lhs in ['n', 'N', '#', '*', 'g#', 'g*']
 endfor
 
 function SPAfterSearch()
-  if b:searching
+  if exists('b:searching') && b:searching
     for x in range(10)
       if exists('*AfterSearch_' . x)
         call call('AfterSearch_' . x, [])
