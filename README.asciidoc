@@ -26,6 +26,12 @@ Visual Searches
 * +&+  Starts a +:substitute+ using the currently selected visual text.
        +<Plug>SearchPartyVisualFindSubstitute+
 
+* +g&+ Repeats the most recent change within the current visual selection.
+       +<Plug>SearchPartyVisualChangeAll+
+
+NOTE: The visual mode +g&+ map replaces all occurrences of +@-+ with +@.+
+within the current visual selection.
+
 Literal Search
 ~~~~~~~~~~~~~~
 

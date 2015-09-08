@@ -37,6 +37,12 @@ SearchParty provides three visual mode search tools:
   &	Starts a |:substitute| using the currently selected visual text.
 	<Plug>SearchPartyVisualFindSubstitute
 
+  g&    Repeats the most recent change within the current visual selection.
+        <Plug>SearchPartyVisualChangeAll
+
+NOTE: The visual mode `g&` map replaces all occurrences of |"-| with |".|
+within the current visual selection.
+
 Literal Search~
 
 SearchParty provides a normal mode literal text (without regular expression
