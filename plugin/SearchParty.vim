@@ -197,6 +197,7 @@ endif
 " -----------------------
 " Use * and # in visual mode to search for visual selection
 " Use & in visual mode to prime a substitute based on visual selection
+" Use g& in visual mode to repeat the prior change
 
 xnoremap <Plug>SearchPartyVisualFindNext   :<c-u>call searchparty#visual#find('/')<cr>
 
@@ -214,6 +215,12 @@ xnoremap <Plug>SearchPartyVisualSubstitute :<c-u>%s/<c-r>=searchparty#visual#ele
 
 if !hasmapto('<Plug>SearchPartyVisualSubstitute')
   xmap <unique> & <Plug>SearchPartyVisualSubstitute
+endif
+
+xnoremap <Plug>SearchPartyVisualChangeAll :s/<c-r>-/\=@./g<cr>
+
+if !hasmapto('<Plug>SearchPartyVisualChangeAll')
+  xmap <unique> g& <Plug>SearchPartyVisualChangeAll
 endif
 
 " Toggle Auto Highlight Cursor Word {{{1
