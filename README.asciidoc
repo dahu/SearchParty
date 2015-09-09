@@ -29,8 +29,14 @@ Visual Searches
 * +g&+ Repeats the most recent change within the current visual selection.
        +<Plug>SearchPartyVisualChangeAll+
 
-NOTE: The visual mode +g&+ map replaces all occurrences of +@-+ with +@.+
-within the current visual selection.
+* +gg&+ Just like `g&` but don't put `\<` and `\>` around the word.
+       +<Plug>SearchPartyVisualChangeAllBare+
+
+NOTE: The visual mode `g&` map replaces all occurrences of `"-` with `".`
+within the current visual selection. The `gg&` version does not wrap the
+search term ( `"-` ) within `\<` and `\>` and so occurrences of the word
+within other words will also be changed. This is similar to the behaviour of
+the existing `*` vs `g*` in Vim.
 
 Literal Search
 ~~~~~~~~~~~~~~

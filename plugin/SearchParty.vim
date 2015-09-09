@@ -217,10 +217,15 @@ if !hasmapto('<Plug>SearchPartyVisualSubstitute')
   xmap <unique> & <Plug>SearchPartyVisualSubstitute
 endif
 
-xnoremap <Plug>SearchPartyVisualChangeAll :s/<c-r>-/\=@./g<cr>
+xnoremap <Plug>SearchPartyVisualChangeAll     :s/\<<c-r>-\>/\=@./g<cr>
+xnoremap <Plug>SearchPartyVisualChangeAllBare :s/<c-r>-/\=@./g<cr>
 
 if !hasmapto('<Plug>SearchPartyVisualChangeAll')
   xmap <unique> g& <Plug>SearchPartyVisualChangeAll
+endif
+
+if !hasmapto('<Plug>SearchPartyVisualChangeAllBare')
+  xmap <unique> gg& <Plug>SearchPartyVisualChangeAllBare
 endif
 
 " Toggle Auto Highlight Cursor Word {{{1
