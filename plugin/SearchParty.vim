@@ -148,14 +148,14 @@ endif
 " Temporarily clear highlighting
 nnoremap <Plug>SearchPartyHighlightClear
       \ :let b:mash_use_fow = 0<cr>
-      \:call searchparty#mash#unmash()<bar>:noh<cr>
+      \:call searchparty#mash#unmash()<bar>noh<cr>
 
 if !hasmapto('<Plug>SearchPartyHighlightClear')
   nmap <unique> <silent> <c-l> <c-l><Plug>SearchPartyHighlightClear
 endif
 
 " Toggle search highlighting
-nnoremap <Plug>SearchPartyHighlightToggle :set invhlsearch hlsearch?<cr>
+nnoremap <Plug>SearchPartyHighlightToggle :let &hlsearch = searchparty#mash#toggle()<bar>set hlsearch?<cr>
 
 if !hasmapto('<Plug>SearchPartyHighlightToggle')
   nmap <unique> <silent> <c-Bslash> <Plug>SearchPartyHighlightToggle

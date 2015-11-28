@@ -14,6 +14,7 @@ endfunction
 function! searchparty#mash#mash()
   call searchparty#mash#init()
   call searchparty#mash#unmash()
+  let b:mash_state = 1
   let b:searching = 1
   if exists('b:mash_use_fow') && b:mash_use_fow
     let b:mash_fow_item = matchadd('MashFOW', '.*', 1)
@@ -27,9 +28,19 @@ function! searchparty#mash#mash()
 endfunction
 
 function! searchparty#mash#unmash()
+  let b:mash_state = 0
   try
     call matchdelete(b:mash_search_item)
     call matchdelete(b:mash_fow_item)
   catch /^Vim\%((\a\+)\)\=:E/
   endtry
+endfunction
+
+function! searchparty#mash#toggle()
+  if ! &hlsearch
+    call searchparty#mash#mash()
+  else
+    call searchparty#mash#unmash()
+  endif
+  return b:mash_state
 endfunction
