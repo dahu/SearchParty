@@ -94,6 +94,7 @@ endfor
 
 function! SPAfterSearch()
   if exists('b:searching') && b:searching
+    call searchparty#mash#mash()
     for x in range(10)
       if exists('*AfterSearch_' . x)
         call call('AfterSearch_' . x, [])
