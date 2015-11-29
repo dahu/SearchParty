@@ -25,6 +25,9 @@ function! searchparty#mash#mash()
   if exists(':ShowSearchIndex')
     ShowSearchIndex
   endif
+  if exists(':AnzuUpdateSearchStatus')
+    AnzuUpdateSearchStatus
+  endif
 endfunction
 
 function! searchparty#mash#unmash()
