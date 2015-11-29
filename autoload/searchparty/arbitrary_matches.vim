@@ -47,16 +47,31 @@ function! searchparty#arbitrary_matches#match_delete(...)
     if empty(num)
       return
     endif
-    let num -= 1
+    if num =~ '^\d\+$'
+      let num -= 1
+    endif
   endif
-  if get(s:matches, num, 0) != 0
-    call matchdelete(s:matches[num])
-    let s:matches[num] = 0
+  if num =~ '^\d\+$'
+    if get(s:matches, num, 0) != 0
+      call matchdelete(s:matches[num])
+      let s:matches[num] = 0
+    endif
+  else
+    let matches = map(filter(searchparty#arbitrary_matches#getmatches(), 'v:val[1] =~ "' . escape(num, '"\\') . '"'), 'matchstr(v:val[0], "\\d$")')
+    for n in matches
+      let num = n - 1
+      call matchdelete(s:matches[num])
+      let s:matches[num] = 0
+    endfor
   endif
 endfunction
 
+function! searchparty#arbitrary_matches#getmatches()
+  return map(filter(getmatches(), 'v:val["group"] =~ "SPM"'), '[v:val["group"], v:val["pattern"]]')
+endfunction
+
 function! searchparty#arbitrary_matches#match_list(...)
-  let matches = map(filter(getmatches(), 'v:val["group"] =~ "SPM"'), '[v:val["group"], substitute(v:val["group"], "SPM", "Search Party Match #", "") . " = " . v:val["pattern"]]')
+  let matches = map(searchparty#arbitrary_matches#getmatches(), '[v:val[0], substitute(v:val[0], "SPM", "Search Party Match #", "") . " = " . v:val[1]]')
   for match in matches
     exe "echohl " . match[0]
     echo match[1]

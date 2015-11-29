@@ -137,9 +137,15 @@ You can override these by providing lines like this in your +~/.vimrc+ file:
 +
 NOTE: Do this after you have set your colorscheme.
 
+* +<leader>md+  Shows the list of existing matches and prompts for a number
+                or pattern to clear. If a number is given, the corresponding
+                match is cleared. If a pattern is given, all matching matches
+                will be cleared.
+                +<Plug>SearchPartyDeleteMatch+
+
 The following functions and commands are available for Search Party matches:
 
-* +SearchPartyMatchDelete(number)+ - clear match by number
+* +SearchPartyMatchDelete(item)+ - clear match by number or pattern
 * +SearchPartyMatchList+ - list all match patterns
 * +SearchPartyMatchNumber(number)+ - reset match number (+1-6+)
 

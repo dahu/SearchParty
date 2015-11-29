@@ -151,11 +151,18 @@ Matches~
 <
              NOTE: Do this after you have set your colorscheme.
 
-                               *SearchPartyMatchDelete* *SearchPartyMatchList*
-                                                    *SearchPartyMatchNumber*
+
+  <leader>md Shows the list of existing matches and prompts for a number
+          or pattern to clear. If a number is given, the corresponding
+          match is cleared. If a pattern is given, all matching matches
+          will be cleared.
+
+
+                           *SearchPartyMatchDelete* *SearchPartyMatchList*
+                                                  *SearchPartyMatchNumber*
              The following functions and commands are available for Search
              Party matches:
-             * SearchPartyMatchDelete(number) - clear match by number
+             * SearchPartyMatchDelete(item) - clear by number or pattern
              * SearchPartyMatchList - list all match patterns
              * SearchPartyMatchNumber(number) - reset match number (1-6)
 
