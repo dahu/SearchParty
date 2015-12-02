@@ -1,5 +1,4 @@
-SearchParty
------------
+== SearchParty
 
 _Enhanced searches, highlights and matches for Vim_
 
@@ -7,15 +6,13 @@ TIP: If you like SearchParty and want to share the W00t!, I'm grateful for
 https://www.gittip.com/bairuidahu/[tips] or
 http://of-vim-and-vigor.blogspot.com/[beverages].
 
-AfterSearch Event
-~~~~~~~~~~~~~~~~~
+=== AfterSearch Event
 
 Functions matching the pattern `/AfterSearch_[0-9]/` will be called in
 numeric order after a search operation: `/` `?` `n` `N` `*` `#` `g*`
 `g#`.
 
-Visual Searches
-~~~~~~~~~~~~~~~
+=== Visual Searches
 
 * +*+  Searches for the next occurrence of the currently selected visual text.
        +<Plug>SearchPartyVisualFindNext+
@@ -38,8 +35,7 @@ search term ( `"-` ) within `\<` and `\>` and so occurrences of the word
 within other words will also be changed. This is similar to the behaviour of
 the existing `*` vs `g*` in Vim.
 
-Literal Search
-~~~~~~~~~~~~~~
+=== Literal Search
 
 * +<leader>/+   Prompts for a literal string to search for. This does
                 NOT use a regular expression, so the characters you type
@@ -48,16 +44,14 @@ Literal Search
                 literal search history.
                 +<Plug>SearchPartyFindLiteral+
 
-Ranged Search
-~~~~~~~~~~~~~
+=== Ranged Search
 
     7,12 RSearch foo
 
 Searches for "foo" only within the range from lines 7 through 12, both
 inclusive. The default range is % (the whole buffer).
 
-Multiple Replacements
-~~~~~~~~~~~~~~~~~~~~~
+=== Multiple Replacements
 
 * +<leader>mp+  Prompts for a Search Term and then prompts for
                 Replacement Terms (space separated). The current line is
@@ -65,8 +59,7 @@ Multiple Replacements
                 minus one, and the Search Term is then replaced on each
                 line with each successive Replacement.
 
-Search Highlight Replace
-~~~~~~~~~~~~~~~~~~~~~~~~
+=== Search Highlight Replace
 
 * +<leader>mar+ Prompts for a Search Term and a Replace Term and
                 whether you want to use global replacement. The
@@ -77,12 +70,11 @@ Search Highlight Replace
 +
     :[range] SearchHighlightReplace
 
-NOTE: This feature is experimental and may not work properly or may
-have adverse side effects. Please contact the plugin developer if you
-experience any grief with this feature.
+NOTE: This feature is experimental and may not work properly or may have
+adverse side effects. Raise an issue if you experience any grief with
+this feature.
 
-Search Highlighting
-~~~~~~~~~~~~~~~~~~~
+=== Search Highlighting
 
 * +<C-L>+       Temporarily clears search highlight.
                 +<Plug>SearchPartyHighlightClear+
@@ -101,8 +93,7 @@ Search Highlighting
 * +<leader>g*+  Highlights all occurrences of +WORD+ under the cursor.
                 +<Plug>SearchPartyHighlightWORD+
 
-Highlighting Print Command
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+=== Highlighting Print Command
 
 E.g.:
 
@@ -111,16 +102,14 @@ E.g.:
 Will show the matching lines with all occurrences of `something` on those
 lines highlighted.
 
-Set Search
-~~~~~~~~~~
+=== Set Search
 
 * +<leader>ms+  Prompts for a pattern and sets the current search to
                 that pattern without moving the cursor to the next
                 match of that pattern.
                 +<Plug>SearchPartySetSearch+
 
-Matches
-~~~~~~~
+=== Matches
 
 * +<leader>mm+  Prompts for a pattern and uses +matchadd()+ to highlight all
                 occurrences of that pattern in the current window.
@@ -149,8 +138,7 @@ The following functions and commands are available for Search Party matches:
 * +SearchPartyMatchList+ - list all match patterns
 * +SearchPartyMatchNumber(number)+ - reset match number (+1-6+)
 
-M.A.S.H.
-~~~~~~~~
+=== M.A.S.H.
 
 Mash is a motion activated (lol - er, I mean, when you press ++n/N/\#/\*/g#/g*++)
 current search match highlighter. Breaking that down for you, it highlights
@@ -158,5 +146,9 @@ the match under the cursor differently to all the other matches (if you have
 :set hlsearch activated). If you don't use hlsearch, then it will still
 highlight the current match.
 
-SearchParty's MASH now plays nice with
-https://github.com/henrik/vim-indexed-search[vim-indexed-search]
+=== Cooperation
+
+SearchParty plays nice with:
+
+* https://github.com/henrik/vim-indexed-search[vim-indexed-search]
+* https://github.com/osyo-manga/vim-anzu[vim-anzu]
