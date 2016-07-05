@@ -101,6 +101,8 @@ function! SPInitialiseSearchMaps()
   endif
   exe 'nnoremap <Plug>SearchPartySearchFwd '  . rhs . ssi . '/'
   exe 'nnoremap <Plug>SearchPartySearchBkwd ' . rhs . ssi . '?'
+  nmap / <Plug>SearchPartySearchFwd
+  nmap ? <Plug>SearchPartySearchBkwd
   call SPLoadUserMaps()
 endfunction
 
