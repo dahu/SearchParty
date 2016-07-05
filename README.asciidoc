@@ -6,6 +6,38 @@ TIP: If you like SearchParty and want to share the W00t!, I'm grateful for
 https://www.gittip.com/bairuidahu/[tips] or
 http://of-vim-and-vigor.blogspot.com/[beverages].
 
+=== Dependencies
+
+* Nexus -- Required by searchparty#search_highlights#replace()
+
+=== Default Maps
+
+Search Party provides 20 user-maps and shadows the following eight
+built-in commands:
+
+  / ? * # g* g# n N
+
+The shadowed commands have been designed to play nice with
+https://github.com/henrik/vim-indexed-search[vim-indexed-search] and
+https://github.com/osyo-manga/vim-anzu[vim-anzu].
+
+The 20 user-maps have default keys as specified in the
+`searchparty_default_maps.vim` file.
+
+If a corresponding `searchparty_user_maps.vim` exists, then all of the
+mappings within it will be loaded unless the target has already been
+mapped to another key sequence (possibly in your +~/.vimrc+).
+
+If `searchparty_user_maps.vim` doesn't exist, it is created as a copy of
+`searchparty_default_maps.vim`.
+
+Customise `searchparty_user_maps.vim` to your needs.
+
+To completely disable the default user-maps processing, add this line
+to your +~/.vimrc+:
+
+  let g:searchparty_load_user_maps = 0
+
 === AfterSearch Event
 
 Functions matching the pattern `/AfterSearch_[0-9]/` will be called in

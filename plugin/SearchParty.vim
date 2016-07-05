@@ -60,8 +60,13 @@ function! SPLoadUserMaps()
       return s:Carp('SPLoadUserMaps: Cannot copy default maps to user maps file (' . sp_user_maps_file .')')
     endif
   endif
+
   for line in readfile(sp_user_maps_file)
-    if line =~ '^\s*\(".*\)$'
+    if line =~ '^\s*\(".*\)\?$'
+      continue
+    endif
+    if line !~ '^.\(nore\)\?map'
+      call s:Carp('SPLoadUserMaps: Not a map command! (' . line . ')')
       continue
     endif
     let lhs  = matchstr(line, '\c<unique>\s*\(<silent>\)\?\s*\zs\S\+')
