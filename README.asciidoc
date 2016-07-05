@@ -8,7 +8,7 @@ http://of-vim-and-vigor.blogspot.com/[beverages].
 
 === Dependencies
 
-* Nexus -- Required by searchparty#search_highlights#replace()
+* https://github.com/dahu/Nexus[Nexus] -- Required by searchparty#search_highlights#replace()
 
 === Default Maps
 

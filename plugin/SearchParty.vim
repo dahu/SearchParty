@@ -72,15 +72,10 @@ function! SPLoadUserMaps()
     let lhs  = matchstr(line, '\c<unique>\s*\(<silent>\)\?\s*\zs\S\+')
     let plug = matchstr(line, '\c<plug>\S\+')
     let mode = matchstr(line, '^.')
-    " if index(['?', '/', '#', '*', 'g#', 'g*', 'n', 'N'], lhs) == -1
-      let existing = maparg(lhs, mode)
-      if existing != ''
-        call s:Carp('SPLoadUserMaps: Mapping ' . lhs . ' already mapped to ' . existing)
-        continue
-      endif
-    " endif
-    if mode == 'x'
-      let mode = 'v'
+    let existing = maparg(lhs, mode)
+    if existing != ''
+      call s:Carp('SPLoadUserMaps: Mapping ' . lhs . ' already mapped to ' . existing)
+      continue
     endif
     if !hasmapto(plug, mode)
       silent! exe line
