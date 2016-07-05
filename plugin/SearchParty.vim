@@ -2,11 +2,9 @@
 " Extended search tools for Vim
 " Maintainers:	Barry Arthur <barry.arthur@gmail.com>
 " 		Israel Chauca F. <israelchauca@gmail.com>
-" Version:	0.6
+" Version:	0.7
 " Description:	Commands and maps for extended searches in Vim
-" Last Change:	2014-09-30
 " License:	Vim License (see :help license)
-" Location:	plugin/SearchParty.vim
 " Website:	https://github.com/dahu/SearchParty
 "
 " See SearchParty.txt for help.  This can be accessed by doing:
@@ -14,7 +12,7 @@
 " :helptags ~/.vim/doc
 " :help SearchParty
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let s:SearchParty_version = '0.6'   " play nice with vim-indexed-search
+let s:SearchParty_version = '0.7'   " Allow default maps to not be loaded
 
 " Vimscript Setup: {{{1
 " Allow use of line continuation.
@@ -31,39 +29,33 @@ set cpo&vim
 "  finish
 "endif
 let g:loaded_SearchParty = 1
+let s:plugin_root = expand('<sfile>:p:h:h')
 
+" Global Options: {{{1
 
-" Literal Search {{{1
+if !exists('g:searchparty_load_user_maps')
+  let g:searchparty_load_user_maps = 1
+endif
+
+" Literal Search: {{{1
 
 nnoremap <silent> <Plug>SearchPartyFindLiteralFwd
       \ :<C-U>call searchparty#literal_search#find_literal(1)<CR>
 
-if !hasmapto('<Plug>SearchPartyFindLiteralFwd')
-  nmap <unique> <silent> <leader>/ <Plug>SearchPartyFindLiteralFwd
-endif
 
 nnoremap <silent> <Plug>SearchPartyFindLiteralBkwd
       \ :<C-U>call searchparty#literal_search#find_literal(0)<CR>
 
-if !hasmapto('<Plug>SearchPartyFindLiteralBkwd')
-  nmap <unique> <silent> <leader>? <Plug>SearchPartyFindLiteralBkwd
-endif
 
-" SearchParty Arbitrary Matches {{{1
+" SearchParty Arbitrary Matches: {{{1
 
 nnoremap <Plug>SearchPartySetMatch
       \ :call searchparty#arbitrary_matches#match()<cr>
 
-if !hasmapto('<Plug>SearchPartySetMatch')
-  nmap <unique> <leader>mm <Plug>SearchPartySetMatch<CR>
-endif
 
 nnoremap <Plug>SearchPartyDeleteMatch
       \ :call searchparty#arbitrary_matches#match_delete()<CR>
 
-if !hasmapto('<Plug>SearchPartyDeleteMatch')
-  nmap <unique> <leader>md <Plug>SearchPartyDeleteMatch
-endif
 
 command! -bar -nargs=0 SearchPartyMatchList
       \ call searchparty#arbitrary_matches#match_list()
@@ -127,9 +119,6 @@ nnoremap <silent> <Plug>SearchPartyMashFOWToggle
       \ :let b:mash_use_fow = b:mash_use_fow ? 0 : 1<CR>
       \:call searchparty#mash#mash()<CR>
 
-if !hasmapto('<Plug>SearchPartyMashFOWToggle')
-  nmap <unique> <leader>mf <Plug>SearchPartyMashFOWToggle
-endif
 
 " backwards compatible to my deprecated vim-MASH plugin
 nmap <silent> <Plug>MashFOWToggle  <Plug>SearchPartyMashFOWToggle
@@ -139,9 +128,6 @@ nmap <silent> <Plug>MashFOWToggle  <Plug>SearchPartyMashFOWToggle
 nnoremap <Plug>SearchPartyMultipleReplace
       \ :call searchparty#multiple_replacements#multiply_replace()<CR>
 
-if !hasmapto('<Plug>SearchPartyMultipleReplace')
-  nmap <unique> <silent> <leader>mp <Plug>SearchPartyMultipleReplace
-endif
 
 " Search Highlighting {{{1
 "--------------------
@@ -150,49 +136,31 @@ nnoremap <Plug>SearchPartyHighlightClear
       \ :let b:mash_use_fow = 0<cr>
       \:call searchparty#mash#unmash()<bar>noh<cr>
 
-if !hasmapto('<Plug>SearchPartyHighlightClear')
-  nmap <unique> <silent> <c-l> <c-l><Plug>SearchPartyHighlightClear
-endif
 
 " Toggle search highlighting
 nnoremap <Plug>SearchPartyHighlightToggle :let &hlsearch = searchparty#mash#toggle()<bar>set hlsearch?<cr>
 
-if !hasmapto('<Plug>SearchPartyHighlightToggle')
-  nmap <unique> <silent> <c-Bslash> <Plug>SearchPartyHighlightToggle
-endif
 
 " Highlight all occurrences of word under cursor
 nnoremap <Plug>SearchPartyHighlightWord
       \ :let @/='\<'.expand('<cword>').'\>'<bar>set hlsearch<cr>viwo<esc>
 
-if !hasmapto('<Plug>SearchPartyHighlightWord')
-  nmap <unique> <silent> <leader>* <Plug>SearchPartyHighlightWord
-endif
 
 " Highlight all occurrences of visual selection
 xnoremap <Plug>SearchPartyHighlightVisual
       \ :<c-U>let @/=searchparty#visual#element()<bar>set hlsearch<cr>
 
-if !hasmapto('<Plug>SearchPartyHighlightVisual')
-  xmap <unique> <silent> <leader>* <Plug>SearchPartyHighlightVisual
-endif
 
 " Highlight all occurrences of WORD under cursor
 nnoremap <Plug>SearchPartyHighlightWORD
       \ :let @/=expand('<cWORD>')<bar>set hlsearch<cr>
 
-if !hasmapto('<Plug>SearchPartyHighlightWORD')
-  nmap <unique> <silent> <leader>g* <Plug>SearchPartyHighlightWORD
-endif
 
 " Manual Search Term from input
 " -----------------------------
 nnoremap <Plug>SearchPartySetSearch
       \ :let @/=input("set search: ")<bar>set hlsearch<cr>
 
-if !hasmapto('<Plug>SearchPartySetSearch')
-  nmap <unique> <silent> <leader>ms <Plug>SearchPartySetSearch
-endif
 
 " Visual Search & Replace
 " -----------------------
@@ -202,32 +170,17 @@ endif
 
 xnoremap <Plug>SearchPartyVisualFindNext   :<c-u>call searchparty#visual#find('/')<cr>
 
-if !hasmapto('<Plug>SearchPartyVisualFindNext')
-  xmap <unique> <silent> * <Plug>SearchPartyVisualFindNext
-endif
 
 xnoremap <Plug>SearchPartyVisualFindPrev   :<c-u>call searchparty#visual#find('?')<cr>
 
-if !hasmapto('<Plug>SearchPartyVisualFindPrev')
-  xmap <unique> <silent> # <Plug>SearchPartyVisualFindPrev
-endif
 
 xnoremap <Plug>SearchPartyVisualSubstitute :<c-u>%s/<c-r>=searchparty#visual#element()<cr>
 
-if !hasmapto('<Plug>SearchPartyVisualSubstitute')
-  xmap <unique> & <Plug>SearchPartyVisualSubstitute
-endif
 
 xnoremap <Plug>SearchPartyVisualChangeAll     :s/\<<c-r>-\>/\=@./g<cr>
 xnoremap <Plug>SearchPartyVisualChangeAllBare :s/<c-r>-/\=@./g<cr>
 
-if !hasmapto('<Plug>SearchPartyVisualChangeAll')
-  xmap <unique> g& <Plug>SearchPartyVisualChangeAll
-endif
 
-if !hasmapto('<Plug>SearchPartyVisualChangeAllBare')
-  xmap <unique> gg& <Plug>SearchPartyVisualChangeAllBare
-endif
 
 " Toggle Auto Highlight Cursor Word {{{1
 " ---------------------------------
@@ -235,9 +188,6 @@ endif
 nnoremap <Plug>SearchPartyToggleAutoHighlightWord
       \ :call searchparty#search_highlights#toggle_AHCW()<CR>
 
-if !hasmapto('<Plug>SearchPartyToggleAutoHighlightWord')
-  nmap <unique> <silent> <leader>mah <Plug>SearchPartyToggleAutoHighlightWord
-endif
 
 " PrintWithHighlighting {{{1
 
@@ -249,13 +199,6 @@ command! -range=% -nargs=* P
 noremap <Plug>SearchPartySearchHighlightReplace
       \ :call searchparty#search_highlights#replace()<CR>
 
-if !hasmapto('<Plug>SearchPartySearchHighlightReplace', 'n')
-  nmap <unique> <silent> <leader>mar <Plug>SearchPartySearchHighlightReplace
-endif
-
-if !hasmapto('<Plug>SearchPartySearchHighlightReplace', 'v')
-  xmap <unique> <silent> <leader>mar <Plug>SearchPartySearchHighlightReplace
-endif
 
 command! -range=% -nargs=0 SearchHighlightReplace
       \ <line1>,<line2>call searchparty#search_highlights#replace()
@@ -264,6 +207,37 @@ command! -range=% -nargs=0 SearchHighlightReplace
 
 command! -range=% -nargs=* RSearch
       \ exe '/\%(\%>'.(<line1>-1).'l\%<'.(<line2>+1).'l\)\&\%(<args>\)/'
+
+function! s:Error(msg)
+  echohl  Error
+  echoerr a:msg
+  echohl  None
+  return  0
+endfunction
+
+function! SearchPartyLoadUserMaps()
+  if ! g:searchparty_load_user_maps
+    return
+  endif
+  let sp_default_maps_file = s:plugin_root . '/searchparty_default_maps.vim'
+  let sp_user_maps_file    = s:plugin_root . '/searchparty_user_maps.vim'
+  if ! filereadable(sp_user_maps_file)
+    if ! filereadable(sp_default_maps_file)
+      return s:Error('SearchPartyLoadUserMaps: Cannot find default maps file (' . sp_default_maps_file .')')
+    endif
+    if writefile(readfile(sp_default_maps_file), sp_user_maps_file) == -1
+      return s:Error('SearchPartyLoadUserMaps: Cannot copy default maps to user maps file (' . sp_user_maps_file .')')
+    endif
+  endif
+  for line in readfile(sp_user_maps_file)
+    let plug = matchstr(line, '\c<plug>\S\+')
+    if !hasmapto(plug)
+      exe line
+    endif
+  endfor
+endfunction
+
+call SearchPartyLoadUserMaps()
 
 " Teardown:{{{1
 "reset &cpo back to users setting
