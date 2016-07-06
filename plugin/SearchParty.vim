@@ -65,20 +65,20 @@ function! SPLoadUserMaps()
     if line =~ '^\s*\(".*\)\?$'
       continue
     endif
-    if line !~ '^.\(nore\)\?map'
+    if line !~ '^\s*.\(nore\)\?map'
       call s:Carp('SPLoadUserMaps: Not a map command! (' . line . ')')
       continue
     endif
     let lhs  = matchstr(line, '\c<unique>\s*\(<silent>\)\?\s*\zs\S\+')
     let plug = matchstr(line, '\c<plug>\S\+')
-    let mode = matchstr(line, '^.')
+    let mode = matchstr(line, '^\s*\zs.')
     let existing = maparg(lhs, mode)
     if existing != ''
       call s:Carp('SPLoadUserMaps: Mapping ' . lhs . ' already mapped to ' . existing)
       continue
     endif
     if !hasmapto(plug, mode)
-      silent! exe line
+      exe line
     endif
   endfor
 endfunction
