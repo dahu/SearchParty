@@ -1,0 +1,13 @@
+
+Error detected while processing /mnt/home_folders/arthurb/vim/.vim/bundle/default/SearchParty/test/_setup.vim:
+line    7:
+E117: Unknown function: SPLoadUserMaps
+                    Error detected while processing function LineColPos[2]..searchparty#literal_search#find_literal:
+line   14:
+E121: Undefined variable: :control
+/\Vabc*
+
+                     E121: Undefined variable: :control
+?\Vabcd$
+
+search hit TOP, continuing at BOTTOM
