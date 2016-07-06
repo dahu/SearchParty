@@ -1,0 +1,5 @@
+1..4
+ok 1 - LineColPos Line, Test 1: normal 1G0\/abc*.
+ok 2 - LineColPos Column, Test 1: normal 1G0\/abc*.
+ok 3 - LineColPos Line, Test 2: normal 2G0\?abcd$.
+ok 4 - LineColPos Column, Test 2: normal 2G0\?abcd$.
