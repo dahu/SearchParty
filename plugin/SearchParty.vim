@@ -33,6 +33,10 @@ set cpo&vim
 let g:loaded_SearchParty = 1
 
 
+if !exists('g:searchparty_visual_find_sets_search')
+  let g:searchparty_visual_find_sets_search = 0
+endif
+
 " Literal Search {{{1
 
 nnoremap <silent> <Plug>SearchPartyFindLiteralFwd

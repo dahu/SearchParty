@@ -14,6 +14,9 @@ function! searchparty#visual#find(search_type)
   set nosmartcase
   if search(term, flags)
     silent! exe 'normal! ' . visualmode() . '/' . term . "/e\<cr>"
+    if g:searchparty_visual_find_sets_search
+      let @/ = term
+    endif
   endif
   let &sc = old_sc
 endfunction

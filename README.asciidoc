@@ -35,6 +35,13 @@ search term ( `"-` ) within `\<` and `\>` and so occurrences of the word
 within other words will also be changed. This is similar to the behaviour of
 the existing `*` vs `g*` in Vim.
 
+The option `g:searchparty_visual_find_sets_search` controls whether the
+`<Plug>SearchPartyVisualFindNext` and `<Plug>SearchPartyVisualFindPrev`
+commands update the current search pattern (`@/`). It is disabled by
+default. To enable it, add this line to your `~/.vimrc`:
+
+  let searchparty_visual_find_sets_search = 1
+
 === Literal Search
 
 * +<leader>/+   Prompts for a literal string to search for. This does
