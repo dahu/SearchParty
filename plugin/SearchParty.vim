@@ -33,6 +33,10 @@ let s:plugin_root = expand('<sfile>:p:h:h')
 
 " Global Options: {{{1
 
+if !exists('g:searchparty_visual_find_sets_search')
+  let g:searchparty_visual_find_sets_search = 0
+endif
+
 if !exists('g:searchparty_load_user_maps')
   let g:searchparty_load_user_maps = 1
 endif

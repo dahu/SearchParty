@@ -1,0 +1,34 @@
+= SearchParty Default User Maps
+v1.0, Barry Arthur, 2016-07-06
+
+== Normal Mode
+
+[cols="1m,4m",width="55%"]
+|====
+|<leader>md  |      <Plug>SearchPartyDeleteMatch
+|<leader>?   |      <Plug>SearchPartyFindLiteralBkwd
+|<leader>/   |      <Plug>SearchPartyFindLiteralFwd
+|<c-l>       | <c-l><Plug>SearchPartyHighlightClear
+|<c-Bslash>  |      <Plug>SearchPartyHighlightToggle
+|<leader>g*  |      <Plug>SearchPartyHighlightWORD
+|<leader>*   |      <Plug>SearchPartyHighlightWord
+|<leader>mf  |      <Plug>SearchPartyMashFOWToggle
+|<leader>mp  |      <Plug>SearchPartyMultipleReplace
+|<leader>mar |      <Plug>SearchPartySearchHighlightReplace
+|<leader>mm  |      <Plug>SearchPartySetMatch<CR>
+|<leader>ms  |      <Plug>SearchPartySetSearch
+|<leader>mah |      <Plug>SearchPartyToggleAutoHighlightWord
+|====
+
+== Visual Mode
+
+[cols="1m,4m",width="55%"]
+|====
+|<leader>*        | <Plug>SearchPartyHighlightVisual
+|<leader>mar      | <Plug>SearchPartySearchHighlightReplace
+|g&               | <Plug>SearchPartyVisualChangeAll
+|gg&              | <Plug>SearchPartyVisualChangeAllBare
+|*                | <Plug>SearchPartyVisualFindNext
+|#                | <Plug>SearchPartyVisualFindPrev
+|&                | <Plug>SearchPartyVisualSubstitute
+|====
