@@ -202,7 +202,7 @@ xnoremap <Plug>SearchPartyHighlightVisual
 
 " Highlight all occurrences of WORD under cursor
 nnoremap <Plug>SearchPartyHighlightWORD
-      \ :let @/=expand('<cWORD>')<bar>set hlsearch<cr>
+      \ :let @/='\V'.escape(expand('<cWORD>'), '\\')<bar>set hlsearch<cr>viWo<esc>
 
 " Manual Search Term From Input
 nnoremap <Plug>SearchPartySetSearch
