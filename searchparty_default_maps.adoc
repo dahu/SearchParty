@@ -14,7 +14,6 @@ v1.0, Barry Arthur, 2016-07-06
 |<leader>*   |      <Plug>SearchPartyHighlightWord
 |<leader>mf  |      <Plug>SearchPartyMashFOWToggle
 |<leader>mp  |      <Plug>SearchPartyMultipleReplace
-|<leader>mar |      <Plug>SearchPartySearchHighlightReplace
 |<leader>mm  |      <Plug>SearchPartySetMatch<CR>
 |<leader>ms  |      <Plug>SearchPartySetSearch
 |<leader>mah |      <Plug>SearchPartyToggleAutoHighlightWord
