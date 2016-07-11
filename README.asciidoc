@@ -66,21 +66,6 @@ inclusive. The default range is % (the whole buffer).
                 minus one, and the Search Term is then replaced on each
                 line with each successive Replacement.
 
-=== Search Highlight Replace
-
-* +<leader>mar+ Prompts for a Search Term and a Replace Term and
-                whether you want to use global replacement. The
-                currently highlighted search terms will then have
-                Search Term replaced with Replace Term. This map works
-                in normal mode on the current line and in visual mode
-                on the range given. There is a corresponding command:
-+
-    :[range] SearchHighlightReplace
-
-NOTE: This feature is experimental and may not work properly or may have
-adverse side effects. Raise an issue if you experience any grief with
-this feature.
-
 === Search Highlighting
 
 * +<C-L>+       Temporarily clears search highlight.
