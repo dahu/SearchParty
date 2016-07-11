@@ -1,10 +1,13 @@
 let &rtp = expand('<sfile>:p:h:h') . ',' . &rtp . ',' . expand('<sfile>:p:h:h') . '/after'
 
+let @* = ''
 runtime plugin/SearchParty.vim
+" Nexus is needed for SearchHighlightReplace
+runtime plugin/Nexus.vim
 
 " Have to manually call SPLoadUserMaps() because RunVimTests doesn't seem to be
 " triggering the VimEnter autocommand.
-call SPLoadUserMaps()
+" call SPLoadUserMaps()
 
 function! Is(got, expected, description)
   let qgot = string(a:got)
@@ -25,7 +28,7 @@ function! LineColPos(line, col, ...)
 endfunction
 
 function! VisualMatch(expected)
-  call Is(@", a:expected, 'VisualMatch. Test ' . g:test_count)
+  call Is(@*, a:expected, 'VisualMatch. Test ' . g:test_count)
 endfunction
 
 function! LineMatch(line, expected)

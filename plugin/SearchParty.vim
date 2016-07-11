@@ -183,7 +183,7 @@ endif
 
 " Highlight all occurrences of WORD under cursor
 nnoremap <Plug>SearchPartyHighlightWORD
-      \ :let @/=expand('<cWORD>')<bar>set hlsearch<cr>
+      \ :let @/='\V'.escape(expand('<cWORD>'), '\\')<bar>set hlsearch<cr>viWo<esc>
 
 if !hasmapto('<Plug>SearchPartyHighlightWORD')
   nmap <unique> <silent> <leader>g* <Plug>SearchPartyHighlightWORD
