@@ -24,7 +24,6 @@ v1.0, Barry Arthur, 2016-07-06
 [cols="1m,4m",width="55%"]
 |====
 |<leader>*        | <Plug>SearchPartyHighlightVisual
-|<leader>mar      | <Plug>SearchPartySearchHighlightReplace
 |g&               | <Plug>SearchPartyVisualChangeAll
 |gg&              | <Plug>SearchPartyVisualChangeAllBare
 |*                | <Plug>SearchPartyVisualFindNext
