@@ -7,7 +7,7 @@ runtime plugin/Nexus.vim
 
 " Have to manually call SPLoadUserMaps() because RunVimTests doesn't seem to be
 " triggering the VimEnter autocommand.
-" call SPLoadUserMaps()
+call SPLoadUserMaps()
 
 function! Is(got, expected, description)
   let qgot = string(a:got)

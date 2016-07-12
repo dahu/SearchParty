@@ -8,6 +8,8 @@ http://of-vim-and-vigor.blogspot.com/[beverages].
 
 == Version 0.7
 
+__July 2016__
+
 * Search Party maps are now defined in `searchparty_user_maps.vim`, the
   loading of which is controlled by `g:searchparty_load_user_maps`.
 * Added a new option, `g:searchparty_visual_find_sets_search`:
@@ -21,6 +23,34 @@ http://of-vim-and-vigor.blogspot.com/[beverages].
 * Added some tests.
 
 == SearchParty Features
+
+=== User Maps
+
+Search Party provides 18 user-maps and shadows the following eight
+built-in normal-mode commands:
+
+  / ? * # g* g# n N
+
+The shadowed commands have been designed to play nice with
+https://github.com/henrik/vim-indexed-search[vim-indexed-search] and
+https://github.com/osyo-manga/vim-anzu[vim-anzu].
+
+The 18 user-maps have default keys as specified in the
+`searchparty_default_maps.vim` file.
+
+If a corresponding `searchparty_user_maps.vim` exists, then all of the
+mappings within it will be loaded unless the target has already been
+mapped to another key sequence (possibly in your +~/.vimrc+).
+
+If `searchparty_user_maps.vim` doesn't exist, it is created as a copy of
+`searchparty_default_maps.vim`.
+
+Customise `searchparty_user_maps.vim` to your needs.
+
+To completely disable the default user-maps processing, add this line
+to your +~/.vimrc+:
+
+  let g:searchparty_load_user_maps = 0
 
 === AfterSearch Event
 
@@ -53,8 +83,18 @@ the existing `*` vs `g*` in Vim.
 
 The option `g:searchparty_visual_find_sets_search` controls whether the
 `<Plug>SearchPartyVisualFindNext` and `<Plug>SearchPartyVisualFindPrev`
-commands update the current search pattern (`@/`). It is disabled by
-default. To enable it, add this line to your `~/.vimrc`:
+commands update the current search pattern (`@/`) and whether visual
+mode is retained or not. The default value is `0`. The allowed values are:
+
+[cols="1,2",width="55%",options="header"]
+|====
+|Value | Effects
+| 0    | Don't set `@/`. Stay in visual mode. (default)
+| 1    | Set `@/`. Stay in visual mode.
+| 2    | Set `@/`. Leave visual mode.
+|====
+
+To alter this option, add a line like this to your `~/.vimrc`:
 
   let searchparty_visual_find_sets_search = 1
 
