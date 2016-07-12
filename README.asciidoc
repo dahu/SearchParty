@@ -6,6 +6,22 @@ TIP: If you like SearchParty and want to share the W00t!, I'm grateful for
 https://www.gittip.com/bairuidahu/[tips] or
 http://of-vim-and-vigor.blogspot.com/[beverages].
 
+== Version 0.7
+
+* Search Party maps are now defined in `searchparty_user_maps.vim`, the
+  loading of which is controlled by `g:searchparty_load_user_maps`.
+* Added a new option, `g:searchparty_visual_find_sets_search`:
+** 0 (default) -- A visual find operation (`<leader>* / <leader>#`) will
+   not set the search register (`@/`).
+** 1 -- A visual find operation will set the search register, staying in
+   visual mode.
+** 2 -- A visual find operation will set the search register, returning
+   to normal mode.
+* Removed the experimental SearchHighlightReplace functionality.
+* Added some tests.
+
+== SearchParty Features
+
 === AfterSearch Event
 
 Functions matching the pattern `/AfterSearch_[0-9]/` will be called in

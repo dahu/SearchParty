@@ -21,12 +21,18 @@ highlighting terms in :g// output.
 ==============================================================================
  2. USAGE                                                  *SearchParty-usage*
 
-Note: All of the default maps shown below can be overridden using the <Plug>
+                                                       *SearchParty-user-maps*
+User maps are defined in `searchparty_user_maps.vim` which is automatically
+generated from `searchparty_default_maps.vim` if the corresponding `user` maps
+file doesn't exist. The loading of this file is controlled by the boolean
+`g:searchparty_load_user_maps` option. Whether the user-maps file is loaded or
+not, all of the default maps shown below can be overridden using the <Plug>
 maps given.
 
+                                                 *SearchParty-visual-searches*
 Visual Searches~
 
-SearchParty provides three visual mode search tools:
+SearchParty provides three |visual-mode| search tools:
 
   *	Searches for the next occurrence of the currently selected visual text.
 	<Plug>SearchPartyVisualFindNext
@@ -36,6 +42,14 @@ SearchParty provides three visual mode search tools:
 
   &	Starts a |:substitute| using the currently selected visual text.
 	<Plug>SearchPartyVisualFindSubstitute
+
+        The `g:searchparty_visual_find_sets_search` option:
+        * 0 (default) -- A visual find operation (`<leader>* / <leader>#`) will
+          not set the search register (|@/|).
+        * 1 -- A visual find operation will set the search register, staying in
+          visual mode.
+        * 2 -- A visual find operation will set the search register, returning
+          to normal mode.
 
   g&    Repeats the most recent change within the current visual selection.
         <Plug>SearchPartyVisualChangeAll
@@ -49,6 +63,7 @@ search term ( |"-| ) within |\<| and |\>| and so occurrences of the word
 within other words will also be changed. This is similar to the behaviour of
 the existing |*| vs |g*| in Vim.
 
+                                                *SearchParty-literal-searches*
 Literal Search~
 
 SearchParty provides a normal mode literal text (without regular expression
@@ -60,6 +75,7 @@ magic) search:
              |<Up>| key scrolls through prior literal search history.
              <Plug>SearchPartyFindLiteral
 
+                                                 *SearchParty-ranged-searches*
 Ranged Search~
 
 E.g.:
@@ -69,6 +85,7 @@ E.g.:
 Searches for "foo" only within the range from lines 7 through 12, both
 inclusive. The default range is % (the whole buffer).
 
+                                            *SearchParty-multiple-replacements*
 Multiple Replacements~
 
   <leader>mp Prompts for a Search Term and then prompts for
@@ -77,6 +94,7 @@ Multiple Replacements~
              minus one, and the Search Term is then replaced on each
              line with each successive Replacement.
 
+                                              *SearchParty-search-highlighting*
 Search Highlighting~
 
 SearchParty provides the following normal mode search highlight tools:
@@ -104,6 +122,7 @@ SearchParty also provides the following visual mode search highlight tool:
               <Plug>SearchPartyHighlightVisual
 
 
+                                               *SearchParty-print-highlighting*
 Highlighting Print Command~
 
 SearchParty provides a command, :P, which highlights the current search term
@@ -121,12 +140,14 @@ The :P command can be used as a standalone command too:
 Will show lines 10 through 20, highlighting all occurrences of the current
 search pattern.
 
+                                                       *SearchParty-set-search*
 Set Search~
 
   <leader>ms Prompts for a pattern and sets the current search to that pattern
              without moving the cursor to the next match of that pattern.
              <Plug>SearchPartySetSearch
 
+                                                          *SearchParty-matches*
 Matches~
 
   <leader>mm Prompts for a pattern and uses |matchadd()| to highlight all
