@@ -193,7 +193,7 @@ nnoremap <Plug>SearchPartyHighlightClear
 nnoremap <Plug>SearchPartyHighlightToggle :let &hlsearch = searchparty#mash#toggle()<bar>set hlsearch?<cr>
 
 " Highlight all occurrences of word under cursor
-nnoremap <Plug>SearchPartyHighlightWord
+nnoremap <silent> <Plug>SearchPartyHighlightWord
       \ :let @/='\<'.expand('<cword>').'\>'<bar>set hlsearch<cr>viwo<esc>
 
 " Highlight all occurrences of visual selection
@@ -201,7 +201,7 @@ xnoremap <Plug>SearchPartyHighlightVisual
       \ :<c-U>let @/=searchparty#visual#element()<bar>set hlsearch<cr>
 
 " Highlight all occurrences of WORD under cursor
-nnoremap <Plug>SearchPartyHighlightWORD
+nnoremap <silent> <Plug>SearchPartyHighlightWORD
       \ :let @/='\V'.escape(expand('<cWORD>'), '\\')<bar>set hlsearch<cr>viWo<esc>
 
 " Manual Search Term From Input

@@ -6,12 +6,13 @@ function! searchparty#search_highlights#toggle_AHCW()
       au!
     augroup END
     augroup! SearchPartyTAHW
-    else
-      augroup SearchPartyTAHW
-        au! CursorHold * call feedkeys("\<Plug>SearchPartyHighlightWord")
-      augroup END
-    endif
-  endfunction
+    call feedkeys("\<Plug>SearchPartyHighlightClear")
+  else
+    augroup SearchPartyTAHW
+      au! CursorHold * call feedkeys("\<Plug>SearchPartyHighlightWord")
+    augroup END
+  endif
+endfunction
 
 
 " PrintWithHighlighting
