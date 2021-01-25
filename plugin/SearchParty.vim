@@ -174,8 +174,9 @@ nnoremap <silent> <Plug>SearchPartyMashFOWToggle
       \ :let b:mash_use_fow = b:mash_use_fow ? 0 : 1<CR>
       \:call searchparty#mash#mash()<CR>
 
+" 2021-1-26 - deprecated
 " backwards compatible to my deprecated vim-MASH plugin
-nmap <silent> <Plug>MashFOWToggle  <Plug>SearchPartyMashFOWToggle
+" nmap <silent> <Plug>MashFOWToggle  <Plug>SearchPartyMashFOWToggle
 
 " Multiple Replacements: {{{2
 
@@ -228,7 +229,7 @@ nnoremap <Plug>SearchPartyToggleAutoHighlightWord
 
 " Print With Highlighting: {{{2
 
-command! -range=% -nargs=* P
+command! -range -nargs=* P
       \ <line1>,<line2>call searchparty#search_highlights#print(<q-args>)
 
 " Replace Within Search Highlights: {{{2

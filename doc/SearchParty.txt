@@ -221,13 +221,7 @@ You can customise the actual key used to enable and disable Fog of War mode.
 For example, to map the |mash-fow| enable key (which is, by default, mapped to
 <leader>mf) to <leader>f, put the following in your ~/.vimrc :
 >
-  nmap <leader>f <Plug>MashFOWEnable
-<
-The following map targets are available for remapping in your ~/.vimrc :
->
-  <Plug>MashFOWEnable              defaults to <leader>mf
-  <Plug>MashFOWDisable             defaults to <leader>mF
-  <Plug>SearchPartyHighlightClear  defaults to <c-l>
+  nmap <leader>f <Plug>SearchPartyMashFOWToggle
 <
 
 Ignorecase~
