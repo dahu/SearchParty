@@ -65,10 +65,21 @@ function! SPLoadUserMaps()
     endif
   endif
 
+  let l:replacement_done = 0
+
   for line in readfile(sp_user_maps_file)
     if line =~ '^\s*\(".*\)\?$'
       continue
     endif
+
+    if exists('g:searchparty_c_l_user_map_to_leader')
+      if l:replacement_done == 0 && line =~# 'nmap\s\+<silent>\s\+<c-l>'
+        exe 'nnoremap <silent> <leader>l    <c-l><Plug>SearchPartyHighlightClear'
+        let l:replacement_done = 1
+        continue
+      endif
+    endif
+
     if line !~ '^\s*.\(nore\)\?map'
       call s:Carp('SPLoadUserMaps: Not a map command! (' . line . ')')
       continue
