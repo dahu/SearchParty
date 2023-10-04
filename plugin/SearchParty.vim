@@ -73,12 +73,14 @@ function! SPLoadUserMaps()
       call s:Carp('SPLoadUserMaps: Not a map command! (' . line . ')')
       continue
     endif
-    let lhs  = matchstr(line, '\c<unique>\s*\(<silent>\)\?\s*\zs\S\+')
+    let lhs  = matchstr(line, '\c^\s*.\(nore\)\?map\s\+\(<unique>\|<silent>\|\s\)\+\zs\S\+')
     let plug = matchstr(line, '\c<plug>\S\+')
     let mode = matchstr(line, '^\s*\zs.')
     let existing = maparg(lhs, mode)
     if existing != ''
-      call s:Carp('SPLoadUserMaps: Mapping ' . lhs . ' already mapped to ' . existing)
+      if !hasmapto(plug, mode)
+        call s:Carp('SPLoadUserMaps: Mapping ' . lhs . ' already mapped to ' . existing . ', and no alternate map to ' . plug . ' exists.')
+      endif
       continue
     endif
     if !hasmapto(plug, mode)
